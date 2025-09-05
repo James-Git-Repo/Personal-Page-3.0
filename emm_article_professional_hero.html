@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>European Market Movers — Weekly</title>
+  <meta name="description" content="European Market Movers — a PM‑style weekly wrap of European markets: what moved, why it mattered, what’s next."/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root{ --page:#ffffff; --ink:#0b152c; --muted:#4c5c83; --line:#e7edf7; --card:#ffffff; --primary:#1f4aff; --accent:#00b7ff; --chip:#eef4ff; --maxw:1120px; --shadow:0 10px 30px rgba(12,23,52,.08) }
+    *{box-sizing:border-box}
+    body{margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif; color:var(--ink); background:var(--page)}
+    header{position:sticky; top:0; z-index:40; backdrop-filter:saturate(140%) blur(8px); background:rgba(255,255,255,.9); border-bottom:1px solid var(--line)}
+    .wrap{max-width:var(--maxw); margin:0 auto; padding:0 20px}
+    .nav{height:72px; display:flex; align-items:center; justify-content:space-between}
+    .brand{display:flex; align-items:center; gap:12px}
+    .mark{width:36px; height:36px; border-radius:12px; display:grid; place-items:center; color:#fff; background:conic-gradient(from 210deg, var(--primary), var(--accent)); box-shadow:var(--shadow)}
+    nav ul{display:flex; list-style:none; gap:16px; margin:0; padding:0}
+    nav a{color:#2140b8; font-weight:700; padding:8px 10px; border-radius:10px; text-decoration:none}
+    nav a:hover{background:#f4f7ff}
+
+    /* Hero — professional / financial */
+    .hero{border-bottom:1px solid var(--line)}
+    .hero.financial{position:relative; background-image:linear-gradient(180deg, rgba(31,74,255,0.12), rgba(0,183,255,0.08)), var(--hero, linear-gradient(180deg,#f7faff 0%,#ffffff 60%)); background-size:cover; background-position:center}
+    .hero.financial::before{content:""; position:absolute; inset:0; background-image:linear-gradient(to right, rgba(12,23,52,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(12,23,52,0.06) 1px, transparent 1px); background-size:48px 48px; pointer-events:none}
+    .hero.financial::after{content:""; position:absolute; top:-30%; right:-20%; width:60%; height:160%; background:radial-gradient(closest-side, rgba(31,74,255,0.18), transparent 70%); pointer-events:none}
+    .hero .inner{position:relative; max-width:var(--maxw); margin:0 auto; padding:40px 20px}
+    .cover-title{font-size: clamp(30px, 3.8vw, 48px); line-height:1.08; margin:6px 0; color:#0b152c}
+
+    /* Uploader */
+    .editor{background:#fff; border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:14px; margin:18px 0}
+    .field{display:flex; flex-direction:column; gap:6px; margin-bottom:10px}
+    .field label{font-size:12px; font-weight:700; color:#3a4a74}
+    .field input,.field textarea{font:inherit; padding:10px 12px; border:1px solid #cad7f5; border-radius:10px}
+    .two{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+    .tabs{display:flex; gap:8px; margin:6px 0}
+    .tabs button{padding:6px 10px; border:1px solid #cad7f5; background:#fff; border-radius:999px; font-weight:700; cursor:pointer}
+    .tabs button.active{background:#e9f1ff}
+
+    /* Article */
+    .article{margin:0 0 40px}
+    .post-head h1{font-size: clamp(28px, 4vw, 46px); line-height:1.08; margin:6px 0}
+    .post-head .subtitle{color:var(--muted); margin:0 0 8px 0}
+    .meta{display:flex; align-items:center; gap:8px; flex-wrap:wrap; color:#5d6a8e; font-size:13px}
+    .chip{background:var(--chip); border:1px solid #dbe6ff; color:#2140b8; padding:6px 10px; border-radius:999px; font-weight:800; font-size:12px}
+    .prose p{margin:1em 0; line-height:1.68}
+    .prose h2{margin-top:1.4em; font-size:1.25rem}
+    .prose img{max-width:100%; border-radius:12px; display:block; margin:12px 0}
+    .prose figure{margin:14px 0}
+    .prose figcaption{font-size:12px; color:#5d6a8e; text-align:center}
+    .prose blockquote{border-left:4px solid var(--line); padding:6px 12px; color:#3a4a74; background:#f7faff; border-radius:8px}
+
+    /* Start-only: hide article until first publish */
+    body.empty #article{display:none}
+
+    footer{border-top:1px solid var(--line); padding:18px 0; color:#6b7897}
+    @media (max-width: 780px){ .two{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <div class="brand"><div class="mark" aria-hidden="true">TSN</div><h1>The (un)Stable Net</h1></div>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#article">Articles</a></li>
+          <li><a href="bio.html">Bio</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Cover-like top -->
+  <section class="hero financial" aria-label="Section cover">
+    <div class="inner">
+      <h2 class="cover-title">European Market Movers</h2>
+    </div>
+  </section>
+
+  <main class="wrap">
+    <!-- Uploader (top-only at start) -->
+    <section id="upload" class="editor" aria-labelledby="uploader-title">
+      <div class="flex items-center justify-between mb-2">
+        <strong id="uploader-title">Upload article</strong>
+        <span class="text-xs text-slate-500" id="draftStatus">Draft</span>
+      </div>
+
+      <div class="field"><label for="aTitle">Title</label><input id="aTitle" placeholder="Week NN — headline"/></div>
+      <div class="field"><label for="aSubtitle">Subtitle / Deck</label><textarea id="aSubtitle" rows="2" placeholder="Short deck as in the example"></textarea></div>
+      <div class="two">
+        <div class="field"><label for="aAuthor">Author</label><input id="aAuthor" placeholder="Your name" value="Jacopo Berton"/></div>
+        <div class="field"><label for="aDate">Date</label><input id="aDate" type="date"/></div>
+      </div>
+
+      <div class="two">
+        <div class="field"><label for="aTags">Tags (comma‑separated)</label><input id="aTags" placeholder="Equities, Rates, FX"/></div>
+        <div class="field"><label for="aExcerpt">Excerpt (optional)</label><input id="aExcerpt" placeholder="Short summary used in previews"/></div>
+      </div>
+
+      <div class="two">
+        <div class="field"><label for="aCoverUrl">Cover image URL</label><input id="aCoverUrl" placeholder="https://... (optional)"/></div>
+        <div class="field"><label for="aCoverFile">Or upload cover file</label><input id="aCoverFile" type="file" accept="image/*"/></div>
+      </div>
+
+      <div class="tabs" role="tablist">
+        <button id="tabText" class="active" type="button">Text</button>
+        <button id="tabHtml" type="button">HTML</button>
+      </div>
+      <div id="paneText" role="tabpanel">
+        <div class="field"><label for="aText">Text content</label><textarea id="aText" rows="10" placeholder="Write your article as plain text. Use blank lines between paragraphs."></textarea></div>
+      </div>
+      <div id="paneHtml" role="tabpanel" hidden>
+        <div class="field"><label for="aHtml">HTML content</label><textarea id="aHtml" rows="12" placeholder="Paste full HTML or snippets (e.g. &lt;h2&gt;, &lt;p&gt;, &lt;ul&gt;, callouts)"></textarea></div>
+      </div>
+
+      <div class="two">
+        <button id="publishBtn" class="btn primary" type="button">Publish</button>
+        <button id="clearBtn" class="btn" type="button">Clear form</button>
+      </div>
+    </section>
+
+    <!-- Article (appears after first publish) -->
+    <section id="article" class="article" aria-labelledby="postTitle" hidden>
+      <article class="post">
+        <header class="post-head">
+          <h1 id="postTitle"></h1>
+          <p id="postSubtitle" class="subtitle"></p>
+          <div class="meta">
+            <span id="postAuthor"></span>
+            <span>•</span>
+            <time id="postDate" datetime=""></time>
+            <span>•</span>
+            <span id="postReadTime"></span>
+            <div id="postTags" class="flex gap-2" style="margin-left:8px"></div>
+          </div>
+        </header>
+        <div id="postBody" class="prose"></div>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap" style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap">
+      <div>© 2025 The (un)Stable Net</div>
+      <div>Multi‑file build • API‑ready</div>
+    </div>
+  </footer>
+
+  <script id="emm-state" type="application/json">{"posts":[]}</script>
+  <script>
+    const STORAGE_KEY = 'EMM_POSTS_V5';
+    var STATE = null; // {posts:[]}
+    function readInline(){ try{ return JSON.parse(document.getElementById('emm-state').textContent||''); }catch(e){ return null; } }
+    function loadState(){ var saved = localStorage.getItem(STORAGE_KEY); var inline = readInline(); STATE = saved? JSON.parse(saved) : (inline || {posts:[]}); }
+    function saveState(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(STATE)); }catch(e){}
+    }
+
+    var el = {
+      hero: document.querySelector('.hero.financial'),
+      article: document.getElementById('article'),
+      postTitle: document.getElementById('postTitle'),
+      postSubtitle: document.getElementById('postSubtitle'),
+      postAuthor: document.getElementById('postAuthor'),
+      postDate: document.getElementById('postDate'),
+      postReadTime: document.getElementById('postReadTime'),
+      postTags: document.getElementById('postTags'),
+      postBody: document.getElementById('postBody'),
+      aTitle: document.getElementById('aTitle'),
+      aSubtitle: document.getElementById('aSubtitle'),
+      aAuthor: document.getElementById('aAuthor'),
+      aDate: document.getElementById('aDate'),
+      aTags: document.getElementById('aTags'),
+      aExcerpt: document.getElementById('aExcerpt'),
+      aCoverUrl: document.getElementById('aCoverUrl'),
+      aCoverFile: document.getElementById('aCoverFile'),
+      tabText: document.getElementById('tabText'),
+      tabHtml: document.getElementById('tabHtml'),
+      paneText: document.getElementById('paneText'),
+      paneHtml: document.getElementById('paneHtml'),
+      aText: document.getElementById('aText'),
+      aHtml: document.getElementById('aHtml'),
+      publishBtn: document.getElementById('publishBtn'),
+      clearBtn: document.getElementById('clearBtn'),
+      draftStatus: document.getElementById('draftStatus')
+    };
+
+    function formatDate(iso){ try{ return new Date(iso+'T00:00:00').toLocaleDateString(undefined,{year:'numeric',month:'short',day:'2-digit'}); }catch(e){ return iso; }}
+    function slugify(s){ return (s||'').toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,''); }
+    function setTab(which){ var t = (which==='html') ? 'html' : 'text'; el.tabText.classList.toggle('active', t==='text'); el.tabHtml.classList.toggle('active', t==='html'); el.paneText.hidden = (t!=='text'); el.paneHtml.hidden = (t!=='html'); }
+    function clearForm(){ el.aTitle.value=''; el.aSubtitle.value=''; el.aAuthor.value='Jacopo Berton'; el.aDate.valueAsDate=new Date(); el.aTags.value=''; el.aExcerpt.value=''; el.aCoverUrl.value=''; el.aCoverFile.value=''; el.aText.value=''; el.aHtml.value=''; setTab('text'); el.draftStatus.textContent='Draft'; }
+    function readCoverFile(){ return new Promise(function(resolve){ var f = el.aCoverFile.files && el.aCoverFile.files[0]; if(!f) return resolve(null); var fr = new FileReader(); fr.onload=function(){ resolve(fr.result); }; fr.readAsDataURL(f); }); }
+
+    function applyHero(cover){ if(cover){ el.hero.style.setProperty('--hero', "url('"+cover+"')"); } else { el.hero.style.removeProperty('--hero'); } }
+
+    function render(){
+      var has = Array.isArray(STATE.posts) && STATE.posts.length>0;
+      document.body.classList.toggle('empty', !has);
+      if(!has){ el.article.hidden = true; applyHero(null); return; }
+      var latest = STATE.posts.slice().sort(function(a,b){ return (b.date||'').localeCompare(a.date||''); })[0];
+      applyHero(latest.cover||'');
+      el.postTitle.textContent = latest.title || '';
+      if(latest.subtitle){ el.postSubtitle.textContent = latest.subtitle; el.postSubtitle.style.display=''; } else { el.postSubtitle.style.display='none'; }
+      el.postAuthor.textContent = latest.author ? ('By ' + latest.author) : '';
+      el.postAuthor.style.display = latest.author ? '' : 'none';
+      var d = latest.date || new Date().toISOString().slice(0,10);
+      el.postDate.textContent = formatDate(d);
+      el.postDate.setAttribute('datetime', d);
+      var textForCount = '';
+      if(latest.contentType==='html'){ var tmp=document.createElement('div'); tmp.innerHTML=latest.content||''; textForCount = tmp.textContent||''; } else { textForCount = latest.content || ''; }
+      var words = textForCount.trim().split(/\s+/).filter(Boolean).length;
+      var mins = Math.max(1, Math.round(words/225));
+      el.postReadTime.textContent = mins + ' min read';
+      el.postTags.innerHTML = (latest.tags||[]).map(function(t){ return '<span class="chip">'+t+'</span>'; }).join('');
+      if(latest.contentType==='html'){ el.postBody.innerHTML = latest.content || ''; } else { var parts = (latest.content||'').split('\n\n'); el.postBody.innerHTML = parts.map(function(p){ return '<p>'+p.replace('\n','<br>')+'</p>'; }).join(''); }
+      el.article.hidden = false;
+    }
+
+    el.tabText.addEventListener('click', function(){ setTab('text'); });
+    el.tabHtml.addEventListener('click', function(){ setTab('html'); });
+
+    el.publishBtn.addEventListener('click', function(){ (async function(){
+      var title = el.aTitle.value.trim(); if(!title){ alert('Title is required'); return; }
+      var date = el.aDate.value || new Date().toISOString().slice(0,10);
+      var subtitle = el.aSubtitle.value.trim();
+      var author = el.aAuthor.value.trim();
+      var tags = el.aTags.value.split(',').map(function(s){return s.trim();}).filter(Boolean);
+      var coverUrl = el.aCoverUrl.value.trim();
+      var coverFile = await readCoverFile();
+      var cover = coverFile || coverUrl || '';
+      var mode = el.tabHtml.classList.contains('active') ? 'html' : 'text';
+      var content = (mode==='html') ? el.aHtml.value : el.aText.value;
+      var slugBase = slugify(title); var slug = slugBase; var i=2; while((STATE.posts||[]).some(function(p){return p.slug===slug;})){ slug = slugBase+'-'+i++; }
+      var post = { id: slug, slug: slug, title: title, subtitle: subtitle, author: author, date: date, tags: tags, cover: cover, contentType: mode, content: content };
+      STATE.posts = Array.isArray(STATE.posts)? STATE.posts : [];
+      STATE.posts.push(post);
+      saveState(); render(); clearForm(); el.draftStatus.textContent='Published'; window.scrollTo({top:0, behavior:'smooth'});
+    })(); });
+
+    el.clearBtn.addEventListener('click', clearForm);
+
+    loadState(); el.aDate.valueAsDate = new Date(); render();
+  </script>
+</body>
+</html>

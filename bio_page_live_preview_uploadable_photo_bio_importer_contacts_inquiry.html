@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jacopo Berton — Full Bio</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--line:#e7edf7; --ink:#0b152c; --maxw:920px; --ink-2:#4c5c83; --brand:#2140b8}
+    *{box-sizing:border-box}
+    body{margin:0; font-family:Inter,system-ui,sans-serif; color:var(--ink); background:linear-gradient(180deg,#f7faff,#ffffff)}
+    header{position:sticky;top:0;background:rgba(255,255,255,.8);backdrop-filter:blur(8px);border-bottom:1px solid var(--line); z-index:10}
+    a{color:var(--brand); text-decoration:none}
+    .wrap{max-width:var(--maxw); margin:0 auto; padding:18px 20px}
+    .head{display:grid; grid-template-columns: 0.32fr 1fr; gap:20px; align-items:start}
+    .photo-wrap{position:relative}
+    .photo{width:100%; aspect-ratio:1/1; border-radius:24px; border:6px solid #fff; box-shadow:0 10px 30px rgba(12,23,52,.08); background: url('https://dummyimage.com/800x800/1b274d/ced9ff&text=Your+Photo') center/cover no-repeat; overflow:hidden}
+    .photo.drop{outline:2px dashed #b8c6ff; outline-offset:-8px}
+    .photo-actions{position:absolute; right:10px; bottom:10px; display:flex; gap:8px}
+    .btn{border:1px solid var(--line); background:#fff; color:var(--ink); padding:8px 10px; border-radius:10px; font-weight:600; cursor:pointer; box-shadow:0 6px 16px rgba(12,23,52,.06)}
+    .btn.primary{background:#eef4ff; border-color:#dbe6ff; color:var(--brand)}
+    .btn.ghost{background:rgba(255,255,255,.85)}
+    h1{font-size: clamp(30px,4.6vw,52px); margin:0}
+    .sub{color:var(--ink-2); margin-top:6px}
+    .badges{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px}
+    .badge{background:#eef4ff; border:1px solid #dbe6ff; color:var(--brand); padding:6px 10px; border-radius:999px; font-weight:800; font-size:12px}
+
+    .contacts{margin-top:12px; background:#fff; border:1px solid var(--line); border-radius:14px; padding:10px; box-shadow:0 8px 22px rgba(12,23,52,.06)}
+    .contacts h4{margin:0 0 8px 0; font-size:14px; color:#253157}
+    .link-list{display:flex; flex-wrap:wrap; gap:8px}
+    .link-pill{display:inline-flex; align-items:center; gap:6px; border:1px solid #e2e8f6; background:#f6f9ff; color:#1f3aa2; padding:6px 9px; border-radius:999px; font-size:12px}
+    .link-pill button{border:none; background:transparent; cursor:pointer; color:#6c7bb0; font-size:14px; line-height:1}
+    .add-link{display:flex; gap:6px; margin-top:8px}
+    .add-link input, .add-link select{flex:1; border:1px solid var(--line); border-radius:10px; padding:8px 10px; font-size:13px}
+    .add-link input.hidden{display:none}
+    .link-pill svg{width:14px; height:14px}
+
+    .body{margin-top:18px; background:#fff; border:1px solid var(--line); border-radius:16px; box-shadow:0 10px 30px rgba(12,23,52,.06); padding:18px}
+    .toolbar{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:12px}
+    .toggle{display:flex; align-items:center; gap:6px; font-size:13px; color:#2e3a62}
+    .dropzone{border:2px dashed #d8e1f7; border-radius:12px; padding:14px; text-align:center; color:#5a6aa0; cursor:pointer}
+    .dropzone.hover{border-color:#9fb2ff; background:#f3f6ff}
+    .hidden{display:none}
+    #bioView{line-height:1.55}
+    #bioEditor{width:100%; min-height:220px; border:1px solid var(--line); border-radius:12px; padding:12px; font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:14px}
+
+    dialog{border:none; border-radius:16px; box-shadow:0 20px 50px rgba(12,23,52,.2); width:min(560px,90vw); padding:0}
+    .dialog-head{padding:14px 16px; border-bottom:1px solid var(--line); background:#f7faff; border-radius:16px 16px 0 0; font-weight:800}
+    .dialog-body{padding:16px}
+    .dialog-body form{display:grid; gap:10px}
+    .dialog-body input,.dialog-body textarea{border:1px solid var(--line); border-radius:10px; padding:10px; font-size:14px}
+    .dialog-foot{display:flex; justify-content:space-between; gap:8px; padding:12px 16px; border-top:1px solid var(--line); background:#fbfcff; border-radius:0 0 16px 16px}
+    footer{color:#61709a; padding:20px 0; text-align:center}
+    @media (max-width: 780px){ .head{grid-template-columns:1fr} .photo-wrap{order:-1} }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center">
+      <a href="index.html">← Home</a>
+      <button class="btn ghost" id="openInquiry">Questions / Inquiries</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="head">
+      <!-- LEFT: Photo + Contacts -->
+      <div class="photo-wrap">
+        <div id="photo" class="photo" title="Drop a photo here or use Upload"></div>
+        <div class="photo-actions">
+          <button class="btn primary" id="uploadBtn">Upload Photo</button>
+          <button class="btn" id="clearPhoto" title="Remove saved photo">Clear</button>
+        </div>
+        <input type="file" id="photoFile" accept="image/*" class="hidden" />
+        <div class="contacts">
+          <h4>Contacts</h4>
+          <div id="links" class="link-list"></div>
+          <div class="add-link">
+            <select id="linkType">
+              <option value="email">Email</option>
+              <option value="linkedin">LinkedIn</option>
+              <option value="youtube">YouTube</option>
+              <option value="github">GitHub</option>
+              <option value="x">X</option>
+              <option value="other">Other</option>
+            </select>
+            <input id="linkLabel" placeholder="Custom label (for Other)" class="hidden" />
+            <input id="linkURL" placeholder="URL or email" />
+            <button class="btn" id="addLinkBtn">Add</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Heading -->
+      <div>
+        <h1>Jacopo Berton</h1>
+        <p class="sub">I turn market noise into crisp briefs and ship small, useful AI products for SMEs and teams.</p>
+        <div class="badges">
+          <span class="badge">Markets & Strategy</span>
+          <span class="badge">AI Tooling</span>
+          <span class="badge">EU–CH Go-to-Market</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- BIO: Uploader + Renderer -->
+    <section class="body">
+      <div class="toolbar">
+        <label class="toggle"><input type="checkbox" id="renderAsHTML"> Render as HTML (sanitized)</label>
+        <button class="btn" id="editBio">Edit</button>
+        <label class="btn" for="bioFile" style="cursor:pointer">Import .txt / .html</label>
+        <input type="file" id="bioFile" accept=".txt,.html,.htm,.md" class="hidden" />
+        <button class="btn" id="saveBio">Save</button>
+        <button class="btn" id="resetBio">Clear</button>
+      </div>
+
+      <!-- Dropzone appears when no content; otherwise we show #bioView -->
+      <div id="dropzone" class="dropzone hidden">
+        Drop a .txt/.html file here, or click “Import” above — or paste content via “Edit”.
+      </div>
+
+      <div id="bioView"></div>
+      <textarea id="bioEditor" class="hidden" placeholder="Paste text or HTML here…"></textarea>
+
+      <div style="text-align:center; margin-top:14px">
+        <a href="index.html">← Back to Home</a>
+      </div>
+    </section>
+
+    <footer>© <span id="y"></span> The (un)Stable Net</footer>
+  </main>
+
+  <!-- Inquiry Dialog -->
+  <dialog id="inqDialog">
+    <div class="dialog-head">Question / Collaboration Inquiry</div>
+    <div class="dialog-body">
+      <form id="inqForm">
+        <input name="name" placeholder="Your name" required />
+        <input name="email" type="email" placeholder="Your email" required />
+        <input name="topic" placeholder="Topic (optional)" />
+        <textarea name="message" rows="6" placeholder="Your message" required></textarea>
+        <small style="color:#6b78a6">On submit, your mail app opens with a pre-filled email to the contact address (uses the ‘Email’ link if you added one).</small>
+      </form>
+    </div>
+    <div class="dialog-foot">
+      <button class="btn" id="closeInq">Close</button>
+      <button class="btn primary" id="sendInq">Send</button>
+    </div>
+  </dialog>
+
+  <script>
+  (function(){
+    const $ = (s, r=document) => r.querySelector(s);
+    const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+
+    const LS = {
+      photo: 'tsn_bio_photo',
+      content: 'tsn_bio_content',
+      mode: 'tsn_bio_mode',            // 'html' | 'text'
+      links: 'tsn_contacts'            // JSON: [{label,url}]
+    };
+
+    const photoEl = $('#photo');
+    const photoFile = $('#photoFile');
+    const uploadBtn = $('#uploadBtn');
+    const clearPhotoBtn = $('#clearPhoto');
+
+    const linksWrap = $('#links');
+    const linkType = $('#linkType');
+    const linkLabel = $('#linkLabel');
+    const linkURL = $('#linkURL');
+    const addLinkBtn = $('#addLinkBtn');
+
+    const bioView = $('#bioView');
+    const bioEditor = $('#bioEditor');
+    const renderAsHTML = $('#renderAsHTML');
+    const editBioBtn = $('#editBio');
+    const saveBioBtn = $('#saveBio');
+    const resetBioBtn = $('#resetBio');
+    const bioFile = $('#bioFile');
+    const dropzone = $('#dropzone');
+
+    const inqDialog = $('#inqDialog');
+    const openInquiry = $('#openInquiry');
+    const closeInq = $('#closeInq');
+    const sendInq = $('#sendInq');
+    const inqForm = $('#inqForm');
+
+    // Footer year
+    $('#y').textContent = new Date().getFullYear();
+
+    // ---------- Photo upload (local only) ----------
+    const loadPhoto = () => {
+      const u = localStorage.getItem(LS.photo);
+      if (u) photoEl.style.backgroundImage = `url('${u}')`;
+    };
+    const savePhoto = file => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        localStorage.setItem(LS.photo, e.target.result);
+        loadPhoto();
+      };
+      reader.readAsDataURL(file);
+    };
+    uploadBtn.addEventListener('click', ()=> photoFile.click());
+    photoFile.addEventListener('change', e => {
+      const f = e.target.files && e.target.files[0];
+      if (f) savePhoto(f);
+      photoFile.value = '';
+    });
+    clearPhotoBtn.addEventListener('click', ()=>{
+      localStorage.removeItem(LS.photo);
+      photoEl.style.backgroundImage = "url('https://dummyimage.com/800x800/1b274d/ced9ff&text=Your+Photo')";
+    });
+    // drag & drop on photo
+    ['dragenter','dragover'].forEach(evt => photoEl.addEventListener(evt, e => { e.preventDefault(); photoEl.classList.add('drop'); }));
+    ['dragleave','drop'].forEach(evt => photoEl.addEventListener(evt, e => { e.preventDefault(); photoEl.classList.remove('drop'); }));
+    photoEl.addEventListener('drop', e => {
+      const f = e.dataTransfer.files && e.dataTransfer.files[0];
+      if (f && f.type.startsWith('image/')) savePhoto(f);
+    });
+    loadPhoto();
+
+// ---------- Contacts ----------
+const ICONS = {
+  email: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 6.5A2.5 2.5 0 0 1 4.5 4h15A2.5 2.5 0 0 1 22 6.5v11A2.5 2.5 0 0 1 19.5 20h-15A2.5 2.5 0 0 1 2 17.5v-11Zm2.2-.5 7.3 5.1L18.8 6H4.2Zm15.3 2.1-7.8 5.4a1 1 0 0 1-1.2 0L2.7 8.1V17.5c0 .55.45 1 1 1h15.8c.55 0 1-.45 1-1V8.1Z"/></svg>',
+  linkedin:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5 2.5 2.5 0 0 1 4.98 3.5ZM.5 8.5h4V23h-4V8.5Zm7.5 0h3.8v2h.1c.5-.9 1.7-2.2 3.6-2.2 3.9 0 4.6 2.6 4.6 6V23h-4v-6.5c0-1.6 0-3.7-2.3-3.7s-2.7 1.7-2.7 3.6V23h-4V8.5Z"/></svg>',
+  youtube:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 12c0 2.2-.2 3.7-.5 4.6-.3.8-1 1.5-1.8 1.8C18.8 19 12 19 12 19s-6.8 0-8.7-.6c-.8-.3-1.5-1-1.8-1.8C.2 15.7 0 14.2 0 12s.2-3.7.5-4.6c.3-.8 1-1.5 1.8-1.8C5.2 5 12 5 12 5s6.8 0 8.7.6c.8.3 1.5 1 1.8 1.8.3.9.5 2.4.5 4.6ZM9.75 8.5v7l6-3.5-6-3.5Z"/></svg>',
+  github:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.2.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.4 1.1 3 .9.1-.7.4-1.1.7-1.4-2.6-.3-5.3-1.3-5.3-5.9 0-1.3.5-2.4 1.2-3.3-.1-.3-.5-1.6.1-3.4 0 0 1-.3 3.4 1.2a11.7 11.7 0 0 1 6.2 0c2.4-1.5 3.4-1.2 3.4-1.2.6 1.8.2 3.1.1 3.4.8.9 1.2 2 1.2 3.3 0 4.6-2.7 5.6-5.4 5.9.4.3.8 1 .8 2v3c0 .4.2.7.8.6A12 12 0 0 0 12 .5Z"/></svg>',
+  x:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2 13.6 9.2 21.8 22h-6.5l-4.4-6.7L5.8 22H2l7.1-9.8L2.2 2h6.5l4 6.1L17 2h1.9Z"/></svg>'
+};
+const LABELS = { email:'Email', linkedin:'LinkedIn', youtube:'YouTube', github:'GitHub', x:'X', other:'Other' };
+const PLACEHOLDERS = {
+  email:'you@domain.com',
+  linkedin:'https://www.linkedin.com/in/your-handle',
+  youtube:'https://youtube.com/@yourchannel',
+  github:'https://github.com/your-handle',
+  x:'https://x.com/your-handle',
+  other:'https://… or mailto:…'
+};
+
+function getLinks(){ try { return JSON.parse(localStorage.getItem(LS.links) || '[]'); } catch { return []; } }
+function setLinks(arr){ localStorage.setItem(LS.links, JSON.stringify(arr)); }
+
+function normalizeURL(type, url){
+  if (!url) return '';
+  url = url.trim();
+  if (type === 'email'){
+    if (!/^mailto:/i.test(url) && /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(url)) return 'mailto:' + url;
+    return url;
+  }
+  if (!/^https?:/i.test(url) && !/^mailto:/i.test(url)) url = 'https://' + url;
+  return url;
+}
+function guessType(item){
+  if (item.type) return item.type;
+  const u = (item.url||'').toLowerCase();
+  if (/^mailto:/.test(u) || (/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(u) && !u.startsWith('http'))) return 'email';
+  if (u.includes('linkedin.com')) return 'linkedin';
+  if (u.includes('github.com')) return 'github';
+  if (u.includes('youtube.com') || u.includes('youtu.be')) return 'youtube';
+  if (u.includes('x.com') || u.includes('twitter.com')) return 'x';
+  return 'other';
+}
+
+// hook up type UI
+linkType.addEventListener('change', ()=>{
+  const t = linkType.value;
+  linkURL.placeholder = PLACEHOLDERS[t] || 'URL or email';
+  linkLabel.classList.toggle('hidden', t !== 'other');
+});
+linkType.dispatchEvent(new Event('change'));
+
+function renderLinks(){
+  linksWrap.innerHTML = '';
+  const arr = getLinks();
+  arr.forEach((it, idx) => {
+    const type = guessType(it);
+    const label = it.label || LABELS[type] || 'Link';
+
+    const pill = document.createElement('span');
+    pill.className = 'link-pill';
+
+    const iconWrap = document.createElement('span');
+    iconWrap.innerHTML = ICONS[type] || '';
+    pill.appendChild(iconWrap);
+
+    const a = document.createElement('a');
+    a.href = it.url;
+    a.target = (/^https?:/i.test(it.url)) ? '_blank' : '_self';
+    a.rel = 'noopener';
+    a.textContent = label;
+    pill.appendChild(a);
+
+    const x = document.createElement('button');
+    x.type = 'button'; x.textContent = '✕';
+    x.title = 'Remove';
+    x.addEventListener('click', ()=> {
+      const arr2 = getLinks(); arr2.splice(idx,1); setLinks(arr2); renderLinks(); ensureEmailHint();
+    });
+    pill.appendChild(x);
+
+    linksWrap.appendChild(pill);
+  });
+  ensureEmailHint();
+}
+
+addLinkBtn.addEventListener('click', ()=>{
+  const type = linkType.value;
+  const url = normalizeURL(type, linkURL.value.trim());
+  const label = (type === 'other') ? (linkLabel.value || '').trim() : LABELS[type];
+  if (!url) return;
+  if (type === 'other' && !label) return;
+  const arr = getLinks();
+  arr.push({type, label, url});
+  setLinks(arr);
+  linkURL.value = ''; linkLabel.value = '';
+  renderLinks();
+});
+
+
+    // ---------- Bio content (text/HTML) ----------
+    const sanitizeHTML = (html) => {
+      // very lightweight allowlist sanitizer
+      const allowed = new Set(['A','P','DIV','H1','H2','H3','H4','H5','H6','EM','STRONG','B','I','U','UL','OL','LI','BR','HR','BLOCKQUOTE','CODE','PRE','SPAN']);
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+
+      const walk = (node) => {
+        if (node.nodeType === 1) { // ELEMENT_NODE
+          if (!allowed.has(node.tagName)) { node.replaceWith(...node.childNodes); return; }
+          // strip all attrs except href on <a>
+          const toRemove = [];
+          for (const attr of node.attributes) {
+            if (node.tagName === 'A' && attr.name.toLowerCase() === 'href') {
+              const v = attr.value.trim();
+              const ok = /^(https?:|mailto:|#)/i.test(v);
+              if (!ok) toRemove.push(attr.name);
+            } else {
+              toRemove.push(attr.name);
+            }
+          }
+          toRemove.forEach(name => node.removeAttribute(name));
+          if (node.tagName === 'A') { node.setAttribute('rel','noopener'); node.setAttribute('target','_blank'); }
+        }
+        // Recurse children (use copy as live list mutates)
+        Array.from(node.childNodes).forEach(walk);
+      };
+      walk(doc.body);
+      return doc.body.innerHTML;
+    };
+
+    const applyBio = () => {
+      const mode = (localStorage.getItem(LS.mode) || 'text');
+      const raw = localStorage.getItem(LS.content) || '';
+      renderAsHTML.checked = mode === 'html';
+      if (!raw) {
+        bioView.classList.add('hidden');
+        dropzone.classList.remove('hidden');
+      } else {
+        dropzone.classList.add('hidden');
+        bioView.classList.remove('hidden');
+        if (mode === 'html') {
+          bioView.innerHTML = sanitizeHTML(raw);
+        } else {
+          bioView.textContent = raw;
+        }
+      }
+    };
+
+    editBioBtn.addEventListener('click', ()=>{
+      bioEditor.classList.toggle('hidden');
+      if (!bioEditor.classList.contains('hidden')) {
+        bioEditor.value = localStorage.getItem(LS.content) || '';
+        bioEditor.focus();
+      }
+    });
+
+    saveBioBtn.addEventListener('click', ()=>{
+      const raw = bioEditor.classList.contains('hidden') ? (localStorage.getItem(LS.content)||'') : bioEditor.value;
+      localStorage.setItem(LS.content, raw);
+      localStorage.setItem(LS.mode, renderAsHTML.checked ? 'html' : 'text');
+      applyBio();
+      if (!bioEditor.classList.contains('hidden')) bioEditor.classList.add('hidden');
+    });
+
+    resetBioBtn.addEventListener('click', ()=>{
+      localStorage.removeItem(LS.content);
+      localStorage.setItem(LS.mode, renderAsHTML.checked ? 'html' : 'text');
+      bioEditor.value = '';
+      applyBio();
+    });
+
+    // Import file
+    bioFile.addEventListener('change', e=>{
+      const f = e.target.files && e.target.files[0];
+      if (!f) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        const text = ev.target.result;
+        bioEditor.value = text;
+        const isHTML = /\.html?$/i.test(f.name) || /^\s*<(!doctype|html|head|body|p|h1|div)/i.test(text);
+        renderAsHTML.checked = !!isHTML;
+        bioEditor.classList.remove('hidden');
+      };
+      reader.readAsText(f);
+      bioFile.value = '';
+    });
+
+    // Dropzone behavior (only when empty)
+    const dzToggle = () => {
+      if ((localStorage.getItem(LS.content)||'').trim()) {
+        dropzone.classList.add('hidden');
+      } else {
+        dropzone.classList.remove('hidden');
+      }
+    };
+    ['dragenter','dragover'].forEach(evt => dropzone.addEventListener(evt, e => { e.preventDefault(); dropzone.classList.add('hover'); }));
+    ['dragleave','drop'].forEach(evt => dropzone.addEventListener(evt, e => { e.preventDefault(); dropzone.classList.remove('hover'); }));
+    dropzone.addEventListener('drop', e=>{
+      const f = e.dataTransfer.files && e.dataTransfer.files[0];
+      if (!f) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        const text = ev.target.result;
+        bioEditor.value = text;
+        renderAsHTML.checked = /\.html?$/i.test(f.name) || /^\s*</.test(text);
+        bioEditor.classList.remove('hidden');
+        dropzone.classList.add('hidden');
+      };
+      reader.readAsText(f);
+    });
+
+    // ---------- Inquiry ----------
+    function ensureEmailHint(){
+      // If a 'mailto:' contact exists, store it for the inquiry form
+      const mail = (getLinks().find(l => /^mailto:/i.test(l.url)) || {}).url || '';
+      inqDialog.dataset.toEmail = mail.replace(/^mailto:/i,'');
+    }
+
+    openInquiry.addEventListener('click', ()=> inqDialog.showModal());
+    $('#closeInq').addEventListener('click', ()=> inqDialog.close());
+    sendInq.addEventListener('click', ()=>{
+      const fd = new FormData(inqForm);
+      const name = (fd.get('name')||'').toString();
+      const from = (fd.get('email')||'').toString();
+      const topic = (fd.get('topic')||'').toString();
+      const msg = (fd.get('message')||'').toString();
+
+      const to = inqDialog.dataset.toEmail || 'hello@example.com';
+      const subject = `Inquiry${topic ? ': ' + topic : ''} — from ${name}`;
+      const body = `Name: ${name}\nEmail: ${from}\nTopic: ${topic}\n\n${msg}\n\n— sent from Bio page`;
+      const url = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = url;
+      inqDialog.close();
+    });
+
+    // ---------- Init ----------
+    // If no contacts exist, pre-seed with placeholders (optional)
+    if (!localStorage.getItem(LS.links)) {
+      setLinks([
+        {label:'Email', url:'mailto:hello@example.com'},
+        {label:'LinkedIn', url:'https://www.linkedin.com/in/your-handle'},
+        {label:'X (Twitter)', url:'https://x.com/your-handle'}
+      ]);
+    }
+    renderLinks();
+    applyBio();
+    dzToggle();
+
+    // keep toggle state in sync
+    renderAsHTML.addEventListener('change', ()=> {
+      localStorage.setItem(LS.mode, renderAsHTML.checked ? 'html' : 'text');
+      applyBio();
+    });
+  })();
+  </script>
+</body>
+</html>

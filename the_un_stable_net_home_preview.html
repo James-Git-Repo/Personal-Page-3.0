@@ -66,7 +66,7 @@
     grid-column:1; grid-row:1;
     margin:0;
     font-weight:800;
-    font-size:14px;
+    font-size:16px;
     letter-spacing:.2px;
   }
   .about-me__photo{
@@ -74,8 +74,8 @@
     width:260px;
     aspect-ratio:1/1;
     border-radius:16px;
-    background:#D3D3D3 url("https://dummyimage.com/520x520/dbe6ff/8aa0ff&text=Your+Photo") center/cover no-repeat;
-    border:2px solid #1b2550;
+    background:#1b2550 url("https://dummyimage.com/520x520/dbe6ff/8aa0ff&text=Your+Photo") center/cover no-repeat;
+    border:2px solid #D3D3D3;
   }
   .about-me__card{
     grid-column:2; grid-row:2;
@@ -84,7 +84,7 @@
     border-radius:14px;
     padding:16px 18px;
     color:#1b2550;
-    line-height:1.5;
+    line-height:1.1;
   }
   .about-me__card p{ margin:0 0 .8rem 0; }
   .about-me__card .cta{ margin-top:.5rem; }
@@ -181,8 +181,8 @@
   <!-- Text card (right column) -->
   <div class="about-me__card">
     <p><strong>My name is Jacopo.</strong></p>
-    <p>Swiss–Italian analyst and builder. I help SMEs & startups land in Switzerland and scale, especially in fintech, med-tech and AI-powered products.</p>
-    <p>I turn signal into concise briefs and ship small tools that remove friction: from drive automations to the 1-million-slot AI billboard concept.</p>
+    <p><i>Swiss–Italian analyst and builder. I help SMEs & startups land in Switzerland and scale, especially in fintech, med-tech and AI-powered products.</i></p>
+    <p><i>I turn signal into concise briefs and ship small tools that remove friction: from drive automations to the 1-million-slot AI billboard concept.</i></p>
     <div class="cta"><a class="btn" href="bio.html">→ Full bio</a></div>
   </div>
 </section>
@@ -227,20 +227,7 @@
       <input class="ft-input" type="file" id="bioFile" accept="image/*" aria-label="Upload bio photo">
     </div>
 
-  <!-- Inquiry modal -->
-  <div id="inquiryPanel" class="customize hidden" role="dialog" aria-modal="true" aria-labelledby="inqTitle">
-    <h3 id="inqTitle">Contact</h3>
-    <p class="mini">Leave your question and contact details.</p>
-    <form id="qsForm" class="ft-form" aria-label="Question form">
-      <input class="ft-input" type="text" id="qName" name="name" placeholder="Name" aria-label="Name" required>
-      <input class="ft-input" type="email" id="qEmail" name="email" placeholder="you@example.com" aria-label="Email" required>
-      <textarea class="ft-input" id="qMsg" name="message" placeholder="Your question…" aria-label="Question" required style="grid-column:1 / -1"></textarea>
-      <div style="display:flex; gap:8px; justify-content:flex-end; width:100%">
-        <button id="inqClose" class="ft-btn" type="button">Cancel</button>
-        <button class="ft-btn" type="submit">Send</button>
-      </div>
-    </form>
-  </div>
+ 
 
     <div id="projectInputs"></div>
 

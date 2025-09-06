@@ -127,7 +127,6 @@
     footer a{color:#2140b8; text-decoration:none; font-weight:700}
     footer a:hover{text-decoration:underline}
     .ft-wrap{display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap}
-    .ft-form{display:grid; grid-template-columns:1fr 1fr auto; gap:8px; align-items:center}
     .ft-input{padding:10px 12px; border-radius:10px; border:1px solid #cfe0ff; font:inherit; min-width:140px}
     .ft-btn{padding:10px 14px; border-radius:10px; border:1px solid #dbe6ff; background:#fff; font-weight:800; cursor:pointer}
 
@@ -142,10 +141,7 @@
       .grid{grid-template-columns:1fr}
       nav{flex:unset; margin-left:0}
       nav ul{justify-content:center; gap:12px; flex-wrap:wrap}
-    }
       .nl-card{grid-template-columns:1fr}
-      .about{grid-template-columns:1fr; text-align:center}
-      .portrait{margin:0 auto}
     }
   </style>
 </head>
@@ -271,20 +267,7 @@
       <input class="ft-input" type="url" id="bioUrl" placeholder="https://…/photo.jpg" aria-label="Bio photo URL">
       <input class="ft-input" type="file" id="bioFile" accept="image/*" aria-label="Upload bio photo">
     </div>
- <!-- Inquiry modal -->
-  <div id="inquiryPanel" class="customize hidden" role="dialog" aria-modal="true" aria-labelledby="inqTitle">
-    <h3 id="inqTitle">Contact</h3>
-    <p class="mini">Leave your question and contact details.</p>
-    <form id="qsForm" class="ft-form" aria-label="Question form">
-      <input class="ft-input" type="text" id="qName" name="name" placeholder="Name" aria-label="Name" required>
-      <input class="ft-input" type="email" id="qEmail" name="email" placeholder="you@example.com" aria-label="Email" required>
-      <textarea class="ft-input" id="qMsg" name="message" placeholder="Your question…" aria-label="Question" required style="grid-column:1 / -1"></textarea>
-      <div style="display:flex; gap:8px; justify-content:flex-end; width:100%">
-        <button id="inqClose" class="ft-btn" type="button">Cancel</button>
-        <button class="ft-btn" type="submit">Send</button>
-      </div>
-    </form>
-  </div>
+
     <div id="projectInputs"></div>
 
     <div class="row" style="justify-content:flex-end">
@@ -374,8 +357,7 @@
         DATA.projects.forEach(p=> localStorage.removeItem('project_cover_'+p.id));
       }
       bioUrlInput.value='';
-      document.querySelectorAll('.proj-url').forEach(i=> i.value='';
-      );
+      document.querySelectorAll('.proj-url').forEach(i => { i.value = ''; });
       render();
       alert('All custom images cleared.');
     });

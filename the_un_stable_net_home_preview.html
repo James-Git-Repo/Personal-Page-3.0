@@ -84,7 +84,7 @@
     border-radius:14px;
     padding:16px 18px;
     color:#1b2550;
-    line-height:1.1;
+    line-height:1.2;
   }
   .about-me__card p{ margin:0 0 .8rem 0; }
   .about-me__card .cta{ margin-top:.5rem; }
@@ -227,7 +227,20 @@
       <input class="ft-input" type="file" id="bioFile" accept="image/*" aria-label="Upload bio photo">
     </div>
 
- 
+  <!-- Inquiry modal -->
+  <div id="inquiryPanel" class="customize hidden" role="dialog" aria-modal="true" aria-labelledby="inqTitle">
+    <h3 id="inqTitle">Contact</h3>
+    <p class="mini">Leave your question and contact details.</p>
+    <form id="qsForm" class="ft-form" aria-label="Question form">
+      <input class="ft-input" type="text" id="qName" name="name" placeholder="Name" aria-label="Name" required>
+      <input class="ft-input" type="email" id="qEmail" name="email" placeholder="you@example.com" aria-label="Email" required>
+      <textarea class="ft-input" id="qMsg" name="message" placeholder="Your question…" aria-label="Question" required style="grid-column:1 / -1"></textarea>
+      <div style="display:flex; gap:8px; justify-content:flex-end; width:100%">
+        <button id="inqClose" class="ft-btn" type="button">Cancel</button>
+        <button class="ft-btn" type="submit">Send</button>
+      </div>
+    </form>
+  </div>
 
     <div id="projectInputs"></div>
 

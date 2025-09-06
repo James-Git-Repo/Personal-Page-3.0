@@ -128,20 +128,46 @@
       <div class="grid" id="projectGrid"></div>
     </section>
 
-    <section class="about" aria-labelledby="about-title">
-  <!-- Title sits above the photo, upper-left -->
-  <h2 id="about-title" class="about-title"><strong>About me</strong></h2>
+/* About layout */
+.about{
+  padding:24px 0 48px;
+  display:grid;
+  grid-template-columns: minmax(220px,0.38fr) 1fr;
+  grid-template-rows: auto 1fr;           /* row 1: title  | row 2: photo+text */
+  gap:22px;
+  align-items:start;
+}
+.about-title{
+  grid-column:1; grid-row:1;              /* upper-left, above the photo */
+  margin:0 0 6px 0;
+  font-weight:800;
+  letter-spacing:.2px;
+}
+.portrait{
+  grid-column:1; grid-row:2;              /* left column */
+  width:100%;
+  max-width:260px;
+  aspect-ratio:1/1;
+  border-radius:24px;
+  background:#dbe6ff center/cover no-repeat;  /* keep your existing image styles */
+  justify-self:start;
+}
+.bio{
+  grid-column:2; grid-row:2;              /* right column */
+  align-self:start;
+}
+.bio .cta{ margin-top:12px; }
 
-  <!-- Left column -->
-  <div class="portrait" id="portrait" aria-hidden="true"></div>
-
-  <!-- Right column -->
-  <div class="bio">
-    <p><strong>Hi, I’m Jacopo.</strong> Swiss–Italian analyst and builder. I help SMEs & startups land in Switzerland and scale, especially in fintech, med-tech and AI-powered products.</p>
-    <p>I turn signal into concise briefs and ship small tools that remove friction: from drive automations to the 1-million-slot AI billboard concept.</p>
-    <div class="cta"><a class="btn" href="bio.html">→ Full bio</a></div>
-  </div>
-</section>
+/* Mobile stack */
+@media (max-width: 820px){
+  .about{
+    grid-template-columns:1fr;
+    grid-template-rows:auto auto auto;    /* title → photo → text */
+  }
+  .about-title{ grid-column:1; grid-row:1; }
+  .portrait{ grid-column:1; grid-row:2; justify-self:center; max-width:240px; }
+  .bio{ grid-column:1; grid-row:3; }
+}
 
 
   <footer>

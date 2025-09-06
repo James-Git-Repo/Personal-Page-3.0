@@ -53,52 +53,76 @@
     .inner{padding:16px}
     .tag{display:inline-flex; padding:6px 10px; border-radius:999px; background:#eef4ff; border:1px solid #dbe6ff; color:#2140b8; font-weight:800; font-size:12px}
     .ghost{display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:10px; border:1px solid #dbe6ff; background:#fff; color:#18306b; font-weight:700}
-  /* About Me layout */
-  .about-me-grid{
-    display:grid;
-    grid-template-columns: 260px 1fr;   /* left = photo, right = text */
-    grid-template-rows: auto 1fr;       /* row 1: title, row 2: content */
-    gap:16px 20px;
-    align-items:start;
-    margin: 0 0 32px 0;
-  }
-  .about-me__title{
-    grid-column:1; grid-row:1;
-    margin:0;
-    font-weight:800;
-    font-size:16px;
-    letter-spacing:.2px;
-  }
-  .about-me__photo{
-    grid-column:1; grid-row:2;
-    width:260px;
-    aspect-ratio:1/1;
-    border-radius:16px;
-    background:#1b2550 url("https://dummyimage.com/520x520/dbe6ff/8aa0ff&text=Your+Photo") center/cover no-repeat;
-    border:2px solid #D3D3D3;
-  }
-  .about-me__card{
-    grid-column:2; grid-row:2;
-    background:#ffffff;
-    border:4px solid #ffffff;
-    border-radius:14px;
-    padding:16px 18px;
-    color:#1b2550;
-    line-height:1.2;
-  }
-  .about-me__card p{ margin:0 0 .8rem 0; }
-  .about-me__card .cta{ margin-top:.5rem; }
 
-  /* Mobile */
-  @media (max-width: 820px){
+    /* About Me layout */
     .about-me-grid{
-      grid-template-columns:1fr;
-      grid-template-rows:auto auto auto;  /* title → photo → text */
+      display:grid;
+      grid-template-columns: 260px 1fr;   /* left = photo, right = text */
+      grid-template-rows: auto 1fr;       /* row 1: title, row 2: content */
+      gap:16px 20px;
+      align-items:start;
+      margin: 0 0 32px 0;
     }
-    .about-me__title{ grid-column:1; grid-row:1; }
-    .about-me__photo{ grid-column:1; grid-row:2; justify-self:center; width:min(72vw,260px); }
-    .about-me__card{ grid-column:1; grid-row:3; }
-  }
+    .about-me__title{
+      grid-column:1; grid-row:1;
+      margin:0;
+      font-weight:800;
+      font-size:16px;
+      letter-spacing:.2px;
+    }
+    .about-me__photo{
+      grid-column:1; grid-row:2;
+      width:260px;
+      aspect-ratio:1/1;
+      border-radius:16px;
+      background:#1b2550 url("https://dummyimage.com/520x520/dbe6ff/8aa0ff&text=Your+Photo") center/cover no-repeat;
+      border:2px solid #D3D3D3;
+    }
+    .about-me__card{
+      grid-column:2; grid-row:2;
+      background:#ffffff;
+      border:4px solid #ffffff;
+      border-radius:14px;
+      padding:16px 18px;
+      color:#1b2550;
+      line-height:1.2;
+    }
+    .about-me__card p{ margin:0 0 .8rem 0; }
+    .about-me__card .cta{ margin-top:.5rem; }
+
+    /* Mobile */
+    @media (max-width: 820px){
+      .about-me-grid{
+        grid-template-columns:1fr;
+        grid-template-rows:auto auto auto;  /* title → photo → text */
+      }
+      .about-me__title{ grid-column:1; grid-row:1; }
+      .about-me__photo{ grid-column:1; grid-row:2; justify-self:center; width:min(72vw,260px); }
+      .about-me__card{ grid-column:1; grid-row:3; }
+    }
+
+    /* Inquiry dialog (same as Bio) */
+    dialog{
+      border:0; padding:0; border-radius:16px; overflow:hidden;
+      width:min(720px, 94vw);
+      box-shadow:0 20px 60px rgba(12,23,52,.20), 0 2px 10px rgba(12,23,52,.08);
+    }
+    dialog::backdrop{ background:rgba(11,21,44,.55) }
+    .dialog-head{ padding:14px 16px; font-weight:800; background:#f7faff; border-bottom:1px solid #e7edf7 }
+    .dialog-body{ padding:16px; background:linear-gradient(180deg,#0b152c 0%, #11224a 50%, #0b152c 100%) }
+    .dialog-foot{ padding:12px 16px; background:#f7faff; border-top:1px solid #e7edf7; display:flex; justify-content:space-between }
+    .dialog-body form{ display:grid; gap:12px }
+    .dialog-body input, .dialog-body textarea{
+      width:100%; padding:12px; border-radius:12px; border:2px solid #0b152c;
+      background:white; color:#0b152c; font:inherit;
+    }
+
+    /* inline editing highlight */
+    [contenteditable="true"]{
+      outline:1.5px dashed rgba(16,185,129,.7);
+      outline-offset:3px; border-radius:8px;
+    }
+
     footer{border-top:1px solid var(--line); padding:18px 0; color:#6b7897}
     footer a{color:#2140b8; text-decoration:none; font-weight:700}
     footer a:hover{text-decoration:underline}
@@ -171,35 +195,57 @@
       <div class="grid" id="projectGrid"></div>
     </section>
 
-<section class="about-me-grid" aria-labelledby="about-title">
-  <!-- Title (upper-left above the photo) -->
-  <h2 id="about-title" class="about-me__title">About me</h2>
+    <section class="about-me-grid" aria-labelledby="about-title">
+      <h2 id="about-title" class="about-me__title">About me</h2>
+      <div id="portrait" class="about-me__photo" aria-hidden="true"></div>
+      <div class="about-me__card">
+        <p id="about-p1"><strong>My name is Jacopo.</strong></p>
+        <p id="about-p2"><em>Swiss–Italian analyst and builder. I help SMEs & startups land in Switzerland and scale, especially in fintech, med-tech and AI-powered products.</em></p>
+        <p id="about-p3"><em>I turn signal into concise briefs and ship small tools that remove friction: from drive automations to the 1-million-slot AI billboard concept.</em></p>
+        <div class="cta"><a class="btn" href="bio.html">→ Full bio</a></div>
+      </div>
+    </section>
 
-  <!-- Photo (left column). Keep id="portrait" so your existing script can set the image -->
-  <div id="portrait" class="about-me__photo" aria-hidden="true"></div>
+    <!-- About controls -->
+    <div id="aboutControls" style="display:flex;justify-content:flex-end;gap:8px;margin:-6px 0 20px 0">
+      <button id="aboutEdit"  class="btn small" type="button">✎ Edit</button>
+      <button id="aboutSave"  class="btn small" type="button" style="display:none">Save</button>
+      <button id="aboutCancel"class="btn small" type="button" style="display:none">Cancel</button>
+    </div>
+  </main>
 
-  <!-- Text card (right column) -->
-  <div class="about-me__card">
-    <p><strong>My name is Jacopo.</strong></p>
-    <p><i>Swiss–Italian analyst and builder. I help SMEs & startups land in Switzerland and scale, especially in fintech, med-tech and AI-powered products.</i></p>
-    <p><i>I turn signal into concise briefs and ship small tools that remove friction: from drive automations to the 1-million-slot AI billboard concept.</i></p>
-    <div class="cta"><a class="btn" href="bio.html">→ Full bio</a></div>
-  </div>
-</section>
-
+  <!-- Bio-style Inquiry Dialog -->
+  <dialog id="inqDialog" data-to-email="jacopoberton98@gmail.com">
+    <div class="dialog-head">Question / Collaboration Inquiry</div>
+    <div class="dialog-body">
+      <form id="inqForm">
+        <input name="name" placeholder="Your name" required />
+        <input name="email" type="email" placeholder="Your email" required />
+        <input name="topic" placeholder="Topic (optional)" />
+        <textarea name="message" rows="6" placeholder="Your message" required></textarea>
+        <small style="color:#c7d2fe">
+          On submit, your mail app opens with a pre-filled email to the contact address.
+        </small>
+      </form>
+    </div>
+    <div class="dialog-foot">
+      <button class="ft-btn" id="closeInq" type="button">Close</button>
+      <button class="ft-btn" id="sendInq" type="button">Send</button>
+    </div>
+  </dialog>
 
   <footer>
     <div class="wrap ft-wrap">
       <div>
-       <a href="https://www.linkedin.com/in/jacopo-berton-16a69424b/"
-   target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
-   style="display:inline-flex;align-items:center;justify-content:center;
-          width:28px;height:28px;margin-right:10px;color:#2140b8">
-  <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
-    <path fill="currentColor"
-      d="M20.447 20.452h-3.554V14.75c0-1.357-.027-3.099-1.889-3.099-1.89 0-2.178 1.477-2.178 3.002v5.799H9.27V9h3.414v1.561h.047c.476-.9 1.637-1.849 3.37-1.849 3.601 0 4.266 2.37 4.266 5.455v6.285zM5.337 7.433a2.062 2.062 0 11.001-4.124 2.062 2.062 0 01-.001 4.124zM6.918 20.452H3.654V9h3.264v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.226.792 24 1.771 24h20.451C23.2 24 24 23.226 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-  </svg>
-</a>
+        <a href="https://www.linkedin.com/in/jacopo-berton-16a69424b/"
+           target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
+           style="display:inline-flex;align-items:center;justify-content:center;
+                  width:28px;height:28px;margin-right:10px;color:#2140b8">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+            <path fill="currentColor"
+              d="M20.447 20.452h-3.554V14.75c0-1.357-.027-3.099-1.889-3.099-1.89 0-2.178 1.477-2.178 3.002v5.799H9.27V9h3.414v1.561h.047c.476-.9 1.637-1.849 3.37-1.849 3.601 0 4.266 2.37 4.266 5.455v6.285zM5.337 7.433a2.062 2.062 0 11.001-4.124 2.062 2.062 0 01-.001 4.124zM6.918 20.452H3.654V9h3.264v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.226.792 24 1.771 24h20.451C23.2 24 24 23.226 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
+        </a>
         <a href="mailto:jacopoberton98@gmail.com" aria-label="Email" style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;margin-right:10px">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M1.5 5.75A2.75 2.75 0 0 1 4.25 3h15.5A2.75 2.75 0 0 1 22.5 5.75v12.5A2.75 2.75 0 0 1 19.75 21H4.25A2.75 2.75 0 0 1 1.5 18.25V5.75zm2.75-.25a.25.25 0 0 0-.25.25v.17l7.5 5.01 7.5-5.01v-.17a.25.25 0 0 0-.25-.25H4.25zm15.5 2.64-7.14 4.77a.75.75 0 0 1-.82 0L3.65 8.14v10.11c0 .14.11.25.25.25h15.85c.14 0 .25-.11.25-.25V8.14z"/></svg>
         </a>
@@ -210,8 +256,7 @@
           <img alt="" src="https://cdn.simpleicons.org/x/2140b8" width="22" height="22" loading="lazy">
         </a>
       </div>
-
-      <button id="openInquiry" class="ft-btn" type="button" onclick="document.getElementById('inquiryPanel').classList.remove('hidden')">Ask a question</button>
+      <button id="openInquiry" class="ft-btn" type="button">Ask a question</button>
     </div>
     <div class="wrap mini" style="margin-top:6px">© 2025 The (un)Stable Net</div>
   </footer>
@@ -226,21 +271,6 @@
       <input class="ft-input" type="url" id="bioUrl" placeholder="https://…/photo.jpg" aria-label="Bio photo URL">
       <input class="ft-input" type="file" id="bioFile" accept="image/*" aria-label="Upload bio photo">
     </div>
-
-  <!-- Inquiry modal -->
-  <div id="inquiryPanel" class="customize hidden" role="dialog" aria-modal="true" aria-labelledby="inqTitle">
-    <h3 id="inqTitle">Contact</h3>
-    <p class="mini">Leave your question and contact details.</p>
-    <form id="qsForm" class="ft-form" aria-label="Question form">
-      <input class="ft-input" type="text" id="qName" name="name" placeholder="Name" aria-label="Name" required>
-      <input class="ft-input" type="email" id="qEmail" name="email" placeholder="you@example.com" aria-label="Email" required>
-      <textarea class="ft-input" id="qMsg" name="message" placeholder="Your question…" aria-label="Question" required style="grid-column:1 / -1"></textarea>
-      <div style="display:flex; gap:8px; justify-content:flex-end; width:100%">
-        <button id="inqClose" class="ft-btn" type="button">Cancel</button>
-        <button class="ft-btn" type="submit">Send</button>
-      </div>
-    </form>
-  </div>
 
     <div id="projectInputs"></div>
 
@@ -312,24 +342,6 @@
       render();
     }
 
-    document.getElementById('qsForm').addEventListener('submit', (e)=>{
-      e.preventDefault();
-
-    // Inquiry modal open/close
-    const inqOpen=document.getElementById('openInquiry');
-    const inqPanel=document.getElementById('inquiryPanel');
-    const inqClose=document.getElementById('inqClose');
-    if(inqOpen&&inqPanel){inqOpen.addEventListener('click',()=>inqPanel.classList.remove('hidden'));}
-    if(inqClose&&inqPanel){inqClose.addEventListener('click',()=>inqPanel.classList.add('hidden'));}
-      const name = document.getElementById('qName').value.trim();
-      const email = document.getElementById('qEmail').value.trim();
-      const text = (document.getElementById('qMsg')?.value || document.getElementById('qText')?.value || '').trim();
-      const to = 'jacopoberton98@gmail.com';
-      const subject = encodeURIComponent(`Website question from ${name}`);
-      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nQuestion:\n${text}`);
-      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
-    });
-
     const panel = document.getElementById('customizePanel');
     const openBtn = document.getElementById('openCustomizer');
     const closeBtn = document.getElementById('czClose');
@@ -349,7 +361,8 @@
         DATA.projects.forEach(p=> localStorage.removeItem('project_cover_'+p.id));
       }
       bioUrlInput.value='';
-      document.querySelectorAll('.proj-url').forEach(i=> i.value='');
+      document.querySelectorAll('.proj-url').forEach(i=> i.value='';
+      );
       render();
       alert('All custom images cleared.');
     });
@@ -419,6 +432,81 @@
     });
 
     load();
+  </script>
+
+  <!-- Inquiry dialog wiring + About inline editor -->
+  <script>
+    (function(){
+      // Inquiry dialog
+      const openBtn  = document.getElementById('openInquiry');
+      const dialog   = document.getElementById('inqDialog');
+      const closeBtn = document.getElementById('closeInq');
+      const sendBtn  = document.getElementById('sendInq');
+      const form     = document.getElementById('inqForm');
+
+      if (openBtn && dialog) openBtn.addEventListener('click', ()=> dialog.showModal());
+      if (closeBtn && dialog) closeBtn.addEventListener('click', ()=> dialog.close());
+      if (sendBtn && form && dialog){
+        sendBtn.addEventListener('click', ()=>{
+          const fd = new FormData(form);
+          const name  = (fd.get('name')||'').toString();
+          const email = (fd.get('email')||'').toString();
+          const topic = (fd.get('topic')||'').toString();
+          const msg   = (fd.get('message')||'').toString();
+          const to = dialog.dataset.toEmail || 'hello@example.com';
+          const subject = `Inquiry${topic ? ': ' + topic : ''} — from ${name}`;
+          const body = `Name: ${name}\nEmail: ${email}\nTopic: ${topic}\n\n${msg}\n\n— sent from Home page`;
+          const url = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+          window.location.href = url;
+          dialog.close();
+        });
+      }
+
+      // About inline editing
+      const title = document.getElementById('about-title');
+      const p1 = document.getElementById('about-p1');
+      const p2 = document.getElementById('about-p2');
+      const p3 = document.getElementById('about-p3');
+      try{
+        const s = k => localStorage.getItem(k);
+        if (s('about_title')) title.innerHTML = s('about_title');
+        if (s('about_p1'))    p1.innerHTML    = s('about_p1');
+        if (s('about_p2'))    p2.innerHTML    = s('about_p2');
+        if (s('about_p3'))    p3.innerHTML    = s('about_p3');
+      }catch{}
+
+      const editBtn   = document.getElementById('aboutEdit');
+      const saveBtn   = document.getElementById('aboutSave');
+      const cancelBtn = document.getElementById('aboutCancel');
+      let snapshot = null;
+      function setEditing(on){
+        [title,p1,p2,p3].forEach(el => el.setAttribute('contenteditable', on ? 'true' : 'false'));
+        editBtn.style.display   = on ? 'none'  : '';
+        saveBtn.style.display   = on ? ''      : 'none';
+        cancelBtn.style.display = on ? ''      : 'none';
+      }
+      editBtn?.addEventListener('click', ()=>{
+        snapshot = { t:title.innerHTML, a:p1.innerHTML, b:p2.innerHTML, c:p3.innerHTML };
+        setEditing(true);
+        title.focus();
+      });
+      cancelBtn?.addEventListener('click', ()=>{
+        if (snapshot){
+          title.innerHTML = snapshot.t; p1.innerHTML = snapshot.a; p2.innerHTML = snapshot.b; p3.innerHTML = snapshot.c;
+        }
+        setEditing(false);
+      });
+      saveBtn?.addEventListener('click', ()=>{
+        try{
+          localStorage.setItem('about_title', title.innerHTML);
+          localStorage.setItem('about_p1',    p1.innerHTML);
+          localStorage.setItem('about_p2',    p2.innerHTML);
+          localStorage.setItem('about_p3',    p3.innerHTML);
+        }catch{}
+        setEditing(false);
+        alert('Saved. (Stored in your browser)');
+      });
+    })();
   </script>
 </body>
 </html>

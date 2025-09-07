@@ -15,19 +15,22 @@
       "blurb": "Weekly, PM-style wrap of European markets.",
       "href": "newsletter.html",
       "cover": ""
+    },
+    {
+      "id": "coming",
+      "title": "New projects coming soon…",
+      "tag": "Coming up",
+      "blurb": "Stay tuned",
+      "href": "",
+      "cover": ""
+    },
+    {
+      "id": "newproj",
+      "title": "Create a New Project",
+      "tag": "Tool",
+      "blurb": "Open the project builder preview.",
+      "href": "project-new.html",
+      "cover": ""
     }
-{ id:'coming',
-  title:'New projects coming soon…',
-  tag:'Coming up',
-  blurb:'Stay tuned',
-  href:'',   // empty => non-clickable placeholder
-  cover:'' },
-
-{ id:'newproj',
-  title:'Create a New Project',
-  tag:'Tool',
-  blurb:'Open the project builder preview.',
-  href:'project-new.html',   // opens your project-new.html
-  cover:'' }
-]
-
+  ]
+}

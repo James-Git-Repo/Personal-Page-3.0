@@ -23,14 +23,6 @@
       "blurb": "Stay tuned",
       "href": "",
       "cover": ""
-    },
-    {
-      "id": "newproj",
-      "title": "Create a New Project",
-      "tag": "Tool",
-      "blurb": "Open the project builder preview.",
-      "href": "project-new.html",
-      "cover": ""
     }
   ]
 }

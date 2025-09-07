@@ -16,7 +16,6 @@
       "href": "newsletter.html",
       "cover": ""
     }
-  ]
 }
 { id:'coming',
   title:'New projects coming soon…',
@@ -31,4 +30,5 @@
   blurb:'Open the project builder preview.',
   href:'project-new.html',   // opens your project-new.html
   cover:'' }
+]
 

@@ -128,7 +128,7 @@
   </main>
 
   <!-- Inquiry Dialog -->
-  <dialog id="inqDialog">
+    <dialog id="inqDialog" data-to-email="jacopoberton98@gmail.com">
     <div class="dialog-head">Question / Collaboration Inquiry</div>
     <div class="dialog-body">
       <form id="inqForm">
@@ -136,12 +136,14 @@
         <input name="email" type="email" placeholder="Your email" required />
         <input name="topic" placeholder="Topic (optional)" />
         <textarea name="message" rows="6" placeholder="Your message" required></textarea>
-        <small style="color:#6b78a6">On submit, your mail app opens with a pre-filled email to the contact address (uses the ‘Email’ link if you added one).</small>
+        <small style="color:#c7d2fe">
+          On submit, your mail app opens with a pre-filled email to the contact address.
+        </small>
       </form>
     </div>
     <div class="dialog-foot">
-      <button class="btn" id="closeInq">Close</button>
-      <button class="btn primary" id="sendInq">Send</button>
+      <button class="ft-btn" id="closeInq" type="button">Close</button>
+      <button class="ft-btn" id="sendInq" type="button">Send</button>
     </div>
   </dialog>
 

@@ -135,172 +135,206 @@
   </aside>
 
   <script>
-    (function(){
-      // --- DOM refs
-      const grid = document.getElementById('msbGrid');
-      const y = document.getElementById('y');
-      const toggleBtn = document.getElementById('toggleEdit');
-      const panel = document.getElementById('editPanel');
-      const panelClose = document.getElementById('closePanel');
-      const inputs = {
-        cta1Href: document.getElementById('cta1Href'),
-        cta2Href: document.getElementById('cta2Href'),
-        cellsCount: document.getElementById('cellsCount'),
-      };
-      const links = {
-        cta1: document.getElementById('cta1'),
-        cta2: document.getElementById('cta2'),
-      };
-      const editableEls = Array.from(document.querySelectorAll('[data-editable]'));
+  (function(){
+    // --- DOM refs
+    const grid = document.getElementById('msbGrid');
+    const y = document.getElementById('y');
+    const toggleBtn = document.getElementById('toggleEdit');
+    const panel = document.getElementById('editPanel');
+    const panelClose = document.getElementById('closePanel');
+    const inputs = {
+      cta1Href: document.getElementById('cta1Href'),
+      cta2Href: document.getElementById('cta2Href'),
+      cellsCount: document.getElementById('cellsCount'),
+    };
+    const links = {
+      cta1: document.getElementById('cta1'),
+      cta2: document.getElementById('cta2'),
+    };
+    const editableEls = Array.from(document.querySelectorAll('[data-editable]'));
 
-      // --- Utilities
-      const STORAGE_KEY = 'msb-landing-edits-v1';
-      const loadState = () => JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-      const saveState = (state) => localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    // --- Utilities
+    const STORAGE_KEY = 'msb-landing-edits-v1';
+    const loadState = () => JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    const saveState = (state) => localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 
-      function applyState(state){
-        if(!state) return;
-        // Textual edits
-        editableEls.forEach(el => {
-          const id = el.id; if(!id) return;
-          if (state.text && state.text[id] != null) {
-            el.innerHTML = state.text[id];
-          }
-        });
-        // Links
-        if(state.links){
-          if(state.links.cta1) links.cta1.setAttribute('href', state.links.cta1);
-          if(state.links.cta2) links.cta2.setAttribute('href', state.links.cta2);
+    // NEW: helper to set link + target for externals
+    function setLink(a, url){
+      if(!a) return;
+      const u = (url || '').trim();
+      if(!u){
+        a.removeAttribute('href');
+        a.removeAttribute('target');
+        a.removeAttribute('rel');
+        return;
+      }
+      a.setAttribute('href', u);
+      if(/^https?:\/\//i.test(u)){
+        a.setAttribute('target','_blank');
+        a.setAttribute('rel','noopener');
+      }else{
+        a.removeAttribute('target');
+        a.removeAttribute('rel');
+      }
+    }
+
+    function applyState(state){
+      if(!state) return;
+      // Textual edits
+      editableEls.forEach(el => {
+        const id = el.id; if(!id) return;
+        if (state.text && state.text[id] != null) {
+          el.innerHTML = state.text[id];
         }
-        // Cells
-        if(state.cells){ grid.dataset.cells = String(state.cells); }
-        renderGrid();
-        // Inputs
-        inputs.cta1Href.value = links.cta1.getAttribute('href');
-        inputs.cta2Href.value = links.cta2.getAttribute('href');
-        inputs.cellsCount.value = grid.dataset.cells || '640';
+      });
+      // Links (use helper so empty removes href)
+      if(state.links){
+        if(state.links.cta1 !== undefined) setLink(links.cta1, state.links.cta1);
+        if(state.links.cta2 !== undefined) setLink(links.cta2, state.links.cta2);
       }
+      // Cells
+      if(state.cells){ grid.dataset.cells = String(state.cells); }
+      renderGrid();
+      // Inputs reflect current DOM
+      inputs.cta1Href.value = links.cta1.getAttribute('href') || '';
+      inputs.cta2Href.value = links.cta2.getAttribute('href') || '';
+      inputs.cellsCount.value = grid.dataset.cells || '640';
+    }
 
-      function getCurrentState(){
-        const state = { text:{}, links:{}, cells: parseInt(grid.dataset.cells || '640',10) };
-        editableEls.forEach(el => { if(el.id){ state.text[el.id] = el.innerHTML; }});
-        state.links.cta1 = links.cta1.getAttribute('href');
-        state.links.cta2 = links.cta2.getAttribute('href');
-        return state;
+    function getCurrentState(){
+      const state = { text:{}, links:{}, cells: parseInt(grid.dataset.cells || '640',10) };
+      editableEls.forEach(el => { if(el.id){ state.text[el.id] = el.innerHTML; }});
+      state.links.cta1 = links.cta1.getAttribute('href') || '';
+      state.links.cta2 = links.cta2.getAttribute('href') || '';
+      return state;
+    }
+
+    function resetState(){ localStorage.removeItem(STORAGE_KEY); location.reload(); }
+
+    // --- Grid renderer
+    function renderGrid(){
+      const CELLS = parseInt(grid.dataset.cells || '640',10);
+      grid.innerHTML = '';
+      const frag = document.createDocumentFragment();
+      for(let i=0;i<CELLS;i++){
+        const d=document.createElement('div');
+        d.className='rounded-sm bg-white/10';
+        d.style.height='6px'; d.style.width='6px';
+        d.style.opacity=(0.35+(i%7)*0.07).toString();
+        d.style.animation=`twinkle 3.2s ease-in-out ${(i%37)*0.05}s infinite`;
+        frag.appendChild(d);
       }
+      grid.appendChild(frag);
+    }
 
-      function resetState(){ localStorage.removeItem(STORAGE_KEY); location.reload(); }
+    // --- Edit mode toggle
+    let editOn = false;
+    function setEditMode(on){
+      editOn = on;
+      toggleBtn.textContent = on ? '✓ Editing' : '✎ Edit';
+      toggleBtn.classList.toggle('bg-emerald-400/30', on);
+      toggleBtn.classList.toggle('text-emerald-100', on);
+      editableEls.forEach(el => {
+        el.contentEditable = on ? 'plaintext-only' : 'false';
+        el.classList.toggle('edit-outline', on);
+      });
+      panel.classList.toggle('hidden', !on);
+    }
 
-      // --- Grid renderer
-      function renderGrid(){
-        const CELLS = parseInt(grid.dataset.cells || '640',10);
-        grid.innerHTML = '';
-        const frag = document.createDocumentFragment();
-        for(let i=0;i<CELLS;i++){
-          const d=document.createElement('div');
-          d.className='rounded-sm bg-white/10';
-          d.style.height='6px'; d.style.width='6px';
-          d.style.opacity=(0.35+(i%7)*0.07).toString();
-          d.style.animation=`twinkle 3.2s ease-in-out ${(i%37)*0.05}s infinite`;
-          frag.appendChild(d);
+    // Save button (panel)
+    document.getElementById('saveEdits').addEventListener('click', () => {
+      // Update links and cell count from inputs (via helper)
+      setLink(links.cta1, inputs.cta1Href.value);
+      setLink(links.cta2, inputs.cta2Href.value);
+      const n = parseInt(inputs.cellsCount.value || '640',10);
+      if(!Number.isNaN(n)) { grid.dataset.cells = String(Math.max(64, n)); renderGrid(); }
+      saveState(getCurrentState());
+    });
+
+    // Reset button (panel)
+    document.getElementById('resetEdits').addEventListener('click', resetState);
+
+    // Copy HTML
+    document.getElementById('copyHtml').addEventListener('click', async () => {
+      const html = buildExportHtml();
+      try{
+        await navigator.clipboard.writeText(html);
+        toggleBtn.textContent = 'Copied!';
+        setTimeout(()=>toggleBtn.textContent = editOn?'✓ Editing':'✎ Edit', 1000);
+      }catch(e){ alert('Copy failed. Use Export HTML to download'); }
+    });
+
+    // Download HTML
+    document.getElementById('downloadHtml').addEventListener('click', () => {
+      const html = buildExportHtml();
+      const blob = new Blob([html], {type:'text/html'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'million-slots-landing.html';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+    });
+
+    // Build a clean, self-contained HTML (without editor UI/attributes)
+    function buildExportHtml(){
+      const doc = document.documentElement.cloneNode(true);
+      const $ = (sel, root=doc) => root.querySelector(sel);
+      const $$ = (sel, root=doc) => Array.from(root.querySelectorAll(sel));
+
+      const panelClone = $('#editPanel', doc); if(panelClone) panelClone.remove();
+      const toggleClone = $('#toggleEdit', doc); if(toggleClone) toggleClone.remove();
+
+      $$('#'+editableEls.map(e=>e.id).join(',#')).forEach(el=>{
+        el.removeAttribute('contenteditable');
+        el.classList.remove('edit-outline');
+        el.removeAttribute('data-editable');
+      });
+
+      $$('[data-link-edit]', doc).forEach(a => a.removeAttribute('data-link-edit'));
+
+      const yEl = $('#y', doc); if(yEl) yEl.textContent = new Date().getFullYear();
+
+      const doctype = '<!doctype html>';
+      return doctype + '\n' + doc.outerHTML;
+    }
+
+    // --- Wire up events
+    toggleBtn.addEventListener('click', () => setEditMode(!editOn));
+    panelClose.addEventListener('click', () => setEditMode(false));
+
+    // Save on blur for inline fields
+    editableEls.forEach(el => el.addEventListener('blur', () => saveState(getCurrentState())));
+
+    // NEW: Click a CTA to set its URL while editing
+    document.querySelectorAll('[data-link-edit]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        if(!editOn) return;      // normal nav when not editing
+        e.preventDefault();
+        const label = a.textContent.trim() || 'link';
+        const current = a.getAttribute('href') || '';
+        const url = prompt(`Set link URL for “${label}”`, current);
+        if(url !== null){
+          setLink(a, url);
+          // reflect in panel inputs
+          if(a.id === 'cta1') inputs.cta1Href.value = a.getAttribute('href') || '';
+          if(a.id === 'cta2') inputs.cta2Href.value = a.getAttribute('href') || '';
+          saveState(getCurrentState());
         }
-        grid.appendChild(frag);
-      }
-
-      // --- Edit mode toggle
-      let editOn = false;
-      function setEditMode(on){
-        editOn = on;
-        toggleBtn.textContent = on ? '✓ Editing' : '✎ Edit';
-        toggleBtn.classList.toggle('bg-emerald-400/30', on);
-        toggleBtn.classList.toggle('text-emerald-100', on);
-        editableEls.forEach(el => {
-          el.contentEditable = on ? 'plaintext-only' : 'false';
-          el.classList.toggle('edit-outline', on);
-        });
-        panel.classList.toggle('hidden', !on);
-      }
-
-      // Save button (panel)
-      document.getElementById('saveEdits').addEventListener('click', () => {
-        // Update links and cell count from inputs
-        if(inputs.cta1Href.value) links.cta1.setAttribute('href', inputs.cta1Href.value);
-        if(inputs.cta2Href.value) links.cta2.setAttribute('href', inputs.cta2Href.value);
-        const n = parseInt(inputs.cellsCount.value || '640',10);
-        if(!Number.isNaN(n)) { grid.dataset.cells = String(Math.max(64, n)); renderGrid(); }
-        saveState(getCurrentState());
       });
+    });
 
-      // Reset button (panel)
-      document.getElementById('resetEdits').addEventListener('click', resetState);
+    // Initial render
+    y.textContent = new Date().getFullYear();
+    applyState(loadState());
+    if(!inputs.cta1Href.value) inputs.cta1Href.value = links.cta1.getAttribute('href') || '';
+    if(!inputs.cta2Href.value) inputs.cta2Href.value = links.cta2.getAttribute('href') || '';
+    if(!inputs.cellsCount.value) inputs.cellsCount.value = grid.dataset.cells || '640';
 
-      // Copy HTML
-      document.getElementById('copyHtml').addEventListener('click', async () => {
-        const html = buildExportHtml();
-        try{ await navigator.clipboard.writeText(html); toggleBtn.textContent = 'Copied!'; setTimeout(()=>toggleBtn.textContent = editOn?'✓ Editing':'✎ Edit', 1000);}catch(e){ alert('Copy failed. Use Export HTML to download'); }
-      });
-
-      // Download HTML
-      document.getElementById('downloadHtml').addEventListener('click', () => {
-        const html = buildExportHtml();
-        const blob = new Blob([html], {type:'text/html'});
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = 'million-slots-landing.html';
-        document.body.appendChild(a); a.click(); a.remove();
-        setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
-      });
-
-      // Build a clean, self‑contained HTML (without editor UI/attributes)
-      function buildExportHtml(){
-        // Clone the document to avoid mutating live view
-        const doc = document.documentElement.cloneNode(true);
-        const $ = (sel, root=doc) => root.querySelector(sel);
-        const $$ = (sel, root=doc) => Array.from(root.querySelectorAll(sel));
-
-        // Remove editor panel + toggle button
-        const panelClone = $('#editPanel', doc); if(panelClone) panelClone.remove();
-        const toggleClone = $('#toggleEdit', doc); if(toggleClone) toggleClone.remove();
-
-        // Turn off edit affordances
-        $$('#'+editableEls.map(e=>e.id).join(',#')).forEach(el=>{
-          el.removeAttribute('contenteditable');
-          el.classList.remove('edit-outline');
-          el.removeAttribute('data-editable');
-        });
-
-        // Ensure inputs not present
-        $$('[data-link-edit]', doc).forEach(a => a.removeAttribute('data-link-edit'));
-
-        // Persist current year
-        const yEl = $('#y', doc); if(yEl) yEl.textContent = new Date().getFullYear();
-
-        // Serialize
-        const doctype = '<!doctype html>';
-        return doctype + '\n' + doc.outerHTML;
-      }
-
-      // --- Wire up events
-      toggleBtn.addEventListener('click', () => setEditMode(!editOn));
-      panelClose.addEventListener('click', () => setEditMode(false));
-
-      // Save on blur for inline fields
-      editableEls.forEach(el => el.addEventListener('blur', () => saveState(getCurrentState())));
-
-      // Initial render
-      y.textContent = new Date().getFullYear();
-      // Apply saved state if any
-      applyState(loadState());
-      // If no state existed, ensure inputs reflect current DOM
-      if(!inputs.cta1Href.value) inputs.cta1Href.value = links.cta1.getAttribute('href');
-      if(!inputs.cta2Href.value) inputs.cta2Href.value = links.cta2.getAttribute('href');
-      if(!inputs.cellsCount.value) inputs.cellsCount.value = grid.dataset.cells || '640';
-
-      // Click outside panel to close (when editing)
-      document.addEventListener('click', (e)=>{
-        if(editOn && !panel.contains(e.target) && e.target !== toggleBtn){ /* keep open */ }
-      });
-    })();
-  </script>
+    // Click outside panel to close (when editing) -> keep panel open
+    document.addEventListener('click', (e)=>{
+      if(editOn && !panel.contains(e.target) && e.target !== toggleBtn){ /* keep open */ }
+    });
+  })();
+</script>
 </body>
 </html>

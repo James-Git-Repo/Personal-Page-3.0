@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>European Market Movers — Weekly</title>
-  <meta name="description" content="European Market Movers — a PM‑style weekly wrap of European markets: what moved, why it mattered, what’s next."/>
+  <meta name="description" content="European Market Movers — a PM-style weekly wrap of European markets: what moved, why it mattered, what’s next."/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
@@ -17,9 +17,23 @@
     .nav{height:72px; display:flex; align-items:center; justify-content:space-between}
     .brand{display:flex; align-items:center; gap:12px}
     .mark{width:36px; height:36px; border-radius:12px; display:grid; place-items:center; color:#fff; background:conic-gradient(from 210deg, var(--primary), var(--accent)); box-shadow:var(--shadow)}
-    nav ul{display:flex; list-style:none; gap:16px; margin:0; padding:0}
-    nav a{color:#2140b8; font-weight:700; padding:8px 10px; border-radius:10px; text-decoration:none}
-    nav a:hover{background:#f4f7ff}
+    nav ul{display:flex; list-style:none; gap:12px; margin:0; padding:0}
+
+    /* Pill buttons (match Home/Bio look) */
+    .pill-btn{
+      appearance:none; display:inline-flex; align-items:center; gap:6px;
+      text-decoration:none; background:#fff; color:#1f3aa2;
+      border:1.5px solid #dbe6ff; border-radius:14px;
+      padding:12px 18px; font-weight:800; font-size:16px; line-height:1;
+      transition:background .15s ease, box-shadow .15s ease;
+      box-shadow:0 1px 0 rgba(12,23,52,.02);
+    }
+    .pill-btn:hover{ background:#f4f7ff; }
+    .pill-btn.primary{
+      background:linear-gradient(180deg,#2954ff,#1f4aff); color:#fff; border-color:#2140b8;
+      box-shadow:0 6px 18px rgba(31,74,255,.20), inset 0 1px 0 rgba(255,255,255,.25);
+    }
+    .pill-row{display:flex; align-items:center; gap:12px}
 
     /* Hero — professional / financial */
     .hero{border-bottom:1px solid var(--line)}
@@ -33,7 +47,7 @@
     .editor{background:#fff; border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:14px; margin:18px 0}
     .field{display:flex; flex-direction:column; gap:6px; margin-bottom:10px}
     .field label{font-size:12px; font-weight:700; color:#3a4a74}
-    .field input,.field textarea{font:inherit; padding:10px 12px; border:1px solid #cad7f5; border-radius:10px}
+    .field input,.field textarea,.field select{font:inherit; padding:10px 12px; border:1px solid #cad7f5; border-radius:10px}
     .two{display:grid; grid-template-columns:1fr 1fr; gap:10px}
     .tabs{display:flex; gap:8px; margin:6px 0}
     .tabs button{padding:6px 10px; border:1px solid #cad7f5; background:#fff; border-radius:999px; font-weight:700; cursor:pointer}
@@ -52,6 +66,25 @@
     .prose figcaption{font-size:12px; color:#5d6a8e; text-align:center}
     .prose blockquote{border-left:4px solid var(--line); padding:6px 12px; color:#3a4a74; background:#f7faff; border-radius:8px}
 
+    /* Comments */
+    .comments{border-top:1px solid var(--line); padding-top:18px; margin-top:24px}
+    .comment-item{padding:12px 0; border-bottom:1px solid var(--line)}
+    .comment-item:last-child{border-bottom:0}
+    .comment-author{font-weight:700}
+    .comment-meta{font-size:12px; color:#6b7897}
+    .comment-text{margin:8px 0 0 0; white-space:pre-wrap}
+
+    /* Contribute dialog */
+    dialog.contrib{border:none; border-radius:16px; width:min(680px, 92vw); padding:0; box-shadow:0 24px 80px rgba(12,23,52,.25)}
+    .dlg-head{display:flex; align-items:center; justify-content:space-between; padding:14px 16px; border-bottom:1px solid var(--line)}
+    .dlg-body{padding:14px 16px}
+    .dlg-actions{display:flex; gap:10px; padding:12px 16px; border-top:1px solid var(--line); justify-content:flex-end}
+    .close-x{appearance:none; border:1px solid #dbe6ff; background:#fff; border-radius:10px; padding:6px 10px; cursor:pointer; font-weight:700}
+
+    /* Utility */
+    .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0}
+    .hide{display:none}
+
     /* Start-only: hide article until first publish */
     body.empty #article{display:none}
 
@@ -62,11 +95,12 @@
 <body>
   <header>
     <div class="wrap nav">
-      <div class="brand"><div class="mark" aria-hidden="true">TSN</div><h1>The (un)Stable Net</h1></div>
+      <div class="brand"><div class="mark" aria-hidden="true">TSN</div><h1 class="text-lg font-extrabold">The (un)Stable Net</h1></div>
       <nav aria-label="Primary">
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="bio.html">Bio</a></li>
+        <ul class="pill-row">
+          <li><a class="pill-btn" href="index.html">Home</a></li>
+          <li><a class="pill-btn" href="bio.html">Bio</a></li>
+          <li><button id="openContrib" class="pill-btn primary" type="button">Contribute</button></li>
         </ul>
       </nav>
     </div>
@@ -76,6 +110,7 @@
   <section class="hero financial" aria-label="Section cover">
     <div class="inner">
       <h2 class="cover-title">European Market Movers</h2>
+      <p class="text-slate-600 max-w-2xl">A weekly wrap of European markets: what moved, why it mattered, what’s next.</p>
     </div>
   </section>
 
@@ -95,7 +130,7 @@
       </div>
 
       <div class="two">
-        <div class="field"><label for="aTags">Tags (comma‑separated)</label><input id="aTags" placeholder="Equities, Rates, FX"/></div>
+        <div class="field"><label for="aTags">Tags (comma-separated)</label><input id="aTags" placeholder="Equities, Rates, FX"/></div>
         <div class="field"><label for="aExcerpt">Excerpt (optional)</label><input id="aExcerpt" placeholder="Short summary used in previews"/></div>
       </div>
 
@@ -116,8 +151,8 @@
       </div>
 
       <div class="two">
-        <button id="publishBtn" class="btn primary" type="button">Publish</button>
-        <button id="clearBtn" class="btn" type="button">Clear form</button>
+        <button id="publishBtn" class="pill-btn primary" type="button">Publish</button>
+        <button id="clearBtn" class="pill-btn" type="button">Clear form</button>
       </div>
     </section>
 
@@ -138,39 +173,95 @@
         </header>
         <div id="postBody" class="prose"></div>
       </article>
+
+      <!-- Comments (per-article) -->
+      <section id="comments" class="comments" aria-labelledby="commentsTitle" hidden>
+        <div class="flex items-center justify-between">
+          <h3 id="commentsTitle" class="text-lg font-extrabold">Comments</h3>
+          <span id="commentsCount" class="text-xs text-slate-500">0</span>
+        </div>
+        <div id="commentsList" class="mt-2"></div>
+        <form id="commentForm" class="editor mt-3" aria-label="Add a comment">
+          <div class="two">
+            <div class="field"><label for="cName">Name</label><input id="cName" autocomplete="name" placeholder="Your name"/></div>
+            <div class="field"><label for="cEmail">Email (not shown)</label><input id="cEmail" type="email" autocomplete="email" placeholder="you@example.com"/></div>
+          </div>
+          <div class="field"><label for="cText">Comment</label><textarea id="cText" rows="4" placeholder="Be respectful. No HTML allowed."></textarea></div>
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-slate-500">Stored locally in your browser for this article.</span>
+            <button class="pill-btn primary" type="submit">Post comment</button>
+          </div>
+        </form>
+      </section>
     </section>
   </main>
 
   <footer>
     <!-- Centered © + legal links -->
-<div class="wrap mini" style="margin-top:6px; display:flex; justify-content:center; align-items:center; gap:10px; flex-wrap:wrap; text-align:center;">
-  <span>© 2025 The (un)Stable Net</span>
-  <span aria-hidden="true">•</span>
-  <a
-    href="assets/legal/privacy-policy.pdf"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="hover:underline underline-offset-4"
-  >Privacy Policy (PDF)</a>
-  <span aria-hidden="true" class="hidden sm:inline">•</span>
-  <a
-    href="assets/legal/terms.pdf"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="hover:underline underline-offset-4"
-  >Terms &amp; Conditions (PDF)</a>
-</div>
+    <div class="wrap mini" style="margin-top:6px; display:flex; justify-content:center; align-items:center; gap:10px; flex-wrap:wrap; text-align:center;">
+      <span>© 2025 The (un)Stable Net</span>
+      <span aria-hidden="true">•</span>
+      <a href="assets/legal/privacy-policy.pdf" target="_blank" rel="noopener noreferrer" class="hover:underline underline-offset-4">Privacy Policy (PDF)</a>
+      <span aria-hidden="true" class="hidden sm:inline">•</span>
+      <a href="assets/legal/terms.pdf" target="_blank" rel="noopener noreferrer" class="hover:underline underline-offset-4">Terms &amp; Conditions (PDF)</a>
+    </div>
   </footer>
 
+  <!-- Contribute dialog -->
+  <dialog id="contribDialog" class="contrib">
+    <form method="dialog" id="contribFormContainer">
+      <div class="dlg-head">
+        <strong>Contribute to EMM</strong>
+        <button class="close-x" id="closeContrib" value="cancel" aria-label="Close">Close</button>
+      </div>
+      <div class="dlg-body">
+        <div class="two">
+          <div class="field"><label for="ctName">Name</label><input id="ctName" required placeholder="Your name"/></div>
+          <div class="field"><label for="ctEmail">Email</label><input id="ctEmail" type="email" required placeholder="you@example.com"/></div>
+        </div>
+        <div class="two">
+          <div class="field">
+            <label for="ctType">Contribution type</label>
+            <select id="ctType">
+              <option value="tip">Market tip / lead</option>
+              <option value="chart">Chart / data point</option>
+              <option value="correction">Correction / feedback</option>
+              <option value="guest">Guest paragraph / op-ed</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="ctFile">Attachment (optional)</label>
+            <input id="ctFile" type="file" />
+          </div>
+        </div>
+        <div class="field"><label for="ctMsg">Message</label><textarea id="ctMsg" rows="5" required placeholder="What would you like to share?"></textarea></div>
+        <label class="text-xs text-slate-600 flex items-center gap-2">
+          <input id="ctConsent" type="checkbox" required />
+          I consent to being contacted about this submission.
+        </label>
+      </div>
+      <div class="dlg-actions">
+        <button class="pill-btn" value="cancel" type="button" id="cancelContrib">Cancel</button>
+        <button class="pill-btn primary" id="submitContrib" type="button">Send</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- State & Scripts -->
   <script id="emm-state" type="application/json">{"posts":[]}</script>
   <script>
+    /* ---------- Persistent keys ---------- */
     const STORAGE_KEY = 'EMM_POSTS_V5';
+    const CONTRIB_KEY = 'EMM_CONTRIB_V1';
+    const COMMENTS_PREFIX = 'EMM_COMMENTS_V1__';
+
+    /* ---------- State helpers ---------- */
     var STATE = null; // {posts:[]}
     function readInline(){ try{ return JSON.parse(document.getElementById('emm-state').textContent||''); }catch(e){ return null; } }
     function loadState(){ var saved = localStorage.getItem(STORAGE_KEY); var inline = readInline(); STATE = saved? JSON.parse(saved) : (inline || {posts:[]}); }
-    function saveState(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(STATE)); }catch(e){}
-    }
+    function saveState(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(STATE)); }catch(e){} }
 
+    /* ---------- DOM refs ---------- */
     var el = {
       hero: document.querySelector('.hero.financial'),
       article: document.getElementById('article'),
@@ -197,17 +288,78 @@
       aHtml: document.getElementById('aHtml'),
       publishBtn: document.getElementById('publishBtn'),
       clearBtn: document.getElementById('clearBtn'),
-      draftStatus: document.getElementById('draftStatus')
+      draftStatus: document.getElementById('draftStatus'),
+      // Comments
+      commentsSection: document.getElementById('comments'),
+      commentsList: document.getElementById('commentsList'),
+      commentsCount: document.getElementById('commentsCount'),
+      commentForm: document.getElementById('commentForm'),
+      cName: document.getElementById('cName'),
+      cEmail: document.getElementById('cEmail'),
+      cText: document.getElementById('cText'),
+      // Contribute dialog
+      openContrib: document.getElementById('openContrib'),
+      contribDlg: document.getElementById('contribDialog'),
+      closeContrib: document.getElementById('closeContrib'),
+      cancelContrib: document.getElementById('cancelContrib'),
+      submitContrib: document.getElementById('submitContrib'),
+      ctName: document.getElementById('ctName'),
+      ctEmail: document.getElementById('ctEmail'),
+      ctType: document.getElementById('ctType'),
+      ctFile: document.getElementById('ctFile'),
+      ctMsg: document.getElementById('ctMsg'),
+      ctConsent: document.getElementById('ctConsent'),
     };
 
+    /* ---------- Utils ---------- */
     function formatDate(iso){ try{ return new Date(iso+'T00:00:00').toLocaleDateString(undefined,{year:'numeric',month:'short',day:'2-digit'}); }catch(e){ return iso; }}
     function slugify(s){ return (s||'').toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,''); }
     function setTab(which){ var t = (which==='html') ? 'html' : 'text'; el.tabText.classList.toggle('active', t==='text'); el.tabHtml.classList.toggle('active', t==='html'); el.paneText.hidden = (t!=='text'); el.paneHtml.hidden = (t!=='html'); }
     function clearForm(){ el.aTitle.value=''; el.aSubtitle.value=''; el.aAuthor.value='Jacopo Berton'; el.aDate.valueAsDate=new Date(); el.aTags.value=''; el.aExcerpt.value=''; el.aCoverUrl.value=''; el.aCoverFile.value=''; el.aText.value=''; el.aHtml.value=''; setTab('text'); el.draftStatus.textContent='Draft'; }
     function readCoverFile(){ return new Promise(function(resolve){ var f = el.aCoverFile.files && el.aCoverFile.files[0]; if(!f) return resolve(null); var fr = new FileReader(); fr.onload=function(){ resolve(fr.result); }; fr.readAsDataURL(f); }); }
-
     function applyHero(cover){ if(cover){ el.hero.style.setProperty('--hero', "url('"+cover+"')"); } else { el.hero.style.removeProperty('--hero'); } }
+    function plainTextFromHTML(html){ var tmp=document.createElement('div'); tmp.innerHTML=html||''; return (tmp.textContent||'').trim(); }
+    function escapeHTML(str){ return (str||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m])); }
+    function timeAgo(ts){ var d = new Date(ts); var diff = Math.max(0, (Date.now()-d.getTime())/1000); var units=[['y',31536000],['mo',2592000],['d',86400],['h',3600],['m',60],['s',1]]; for(const [u,sec] of units){ if(diff>=sec) return Math.floor(diff/sec)+' '+u; } return 'now'; }
 
+    /* ---------- Comments ---------- */
+    function commentsKey(slug){ return COMMENTS_PREFIX + slug; }
+    function loadComments(slug){ try{ return JSON.parse(localStorage.getItem(commentsKey(slug))||'[]'); }catch(e){ return []; } }
+    function saveComments(slug, arr){ try{ localStorage.setItem(commentsKey(slug), JSON.stringify(arr)); }catch(e){} }
+    function renderComments(slug){
+      const items = loadComments(slug);
+      el.commentsList.innerHTML = '';
+      el.commentsCount.textContent = items.length + (items.length===1?' comment':' comments');
+      if(items.length===0){
+        const p = document.createElement('p'); p.className='text-sm text-slate-600'; p.textContent='Be the first to comment.'; el.commentsList.appendChild(p);
+      }else{
+        for(const it of items){
+          const div = document.createElement('div');
+          div.className = 'comment-item';
+          div.innerHTML =
+            '<div class="comment-author">'+escapeHTML(it.name||'Anonymous')+'</div>'+
+            '<div class="comment-meta">'+new Date(it.ts).toLocaleString()+' • '+escapeHTML(it.email||'')+' • '+timeAgo(it.ts)+' ago</div>'+
+            '<div class="comment-text">'+escapeHTML(it.text||'')+'</div>';
+          el.commentsList.appendChild(div);
+        }
+      }
+      el.commentsSection.hidden = false;
+      // attach handler (rebind to ensure fresh slug)
+      el.commentForm.onsubmit = function(ev){
+        ev.preventDefault();
+        const name = el.cName.value.trim() || 'Anonymous';
+        const email = el.cEmail.value.trim();
+        const text = el.cText.value.trim();
+        if(!text){ alert('Please write a comment.'); return; }
+        const arr = loadComments(slug);
+        arr.push({ name, email, text, ts: new Date().toISOString() });
+        saveComments(slug, arr);
+        el.cText.value = '';
+        renderComments(slug);
+      };
+    }
+
+    /* ---------- Render post ---------- */
     function render(){
       var has = Array.isArray(STATE.posts) && STATE.posts.length>0;
       document.body.classList.toggle('empty', !has);
@@ -221,40 +373,90 @@
       var d = latest.date || new Date().toISOString().slice(0,10);
       el.postDate.textContent = formatDate(d);
       el.postDate.setAttribute('datetime', d);
-      var textForCount = '';
-      if(latest.contentType==='html'){ var tmp=document.createElement('div'); tmp.innerHTML=latest.content||''; textForCount = tmp.textContent||''; } else { textForCount = latest.content || ''; }
+      var textForCount = (latest.contentType==='html') ? plainTextFromHTML(latest.content||'') : (latest.content||'');
       var words = textForCount.trim().split(/\s+/).filter(Boolean).length;
       var mins = Math.max(1, Math.round(words/225));
       el.postReadTime.textContent = mins + ' min read';
-      el.postTags.innerHTML = (latest.tags||[]).map(function(t){ return '<span class="chip">'+t+'</span>'; }).join('');
-      if(latest.contentType==='html'){ el.postBody.innerHTML = latest.content || ''; } else { var parts = (latest.content||'').split('\n\n'); el.postBody.innerHTML = parts.map(function(p){ return '<p>'+p.replace('\n','<br>')+'</p>'; }).join(''); }
+      el.postTags.innerHTML = (latest.tags||[]).map(function(t){ return '<span class="chip">'+escapeHTML(t)+'</span>'; }).join('');
+      if(latest.contentType==='html'){ el.postBody.innerHTML = latest.content || ''; } else {
+        var parts = (latest.content||'').split(/\n\s*\n/); el.postBody.innerHTML = parts.map(function(p){ return '<p>'+escapeHTML(p).replace(/\n/g,'<br>')+'</p>'; }).join('');
+      }
       el.article.hidden = false;
+      renderComments(latest.slug); // enable comments for this article
     }
 
-    el.tabText.addEventListener('click', function(){ setTab('text'); });
-    el.tabHtml.addEventListener('click', function(){ setTab('html'); });
+    /* ---------- Tabs & buttons ---------- */
+    function wireUI(){
+      el.tabText.addEventListener('click', function(){ setTab('text'); });
+      el.tabHtml.addEventListener('click', function(){ setTab('html'); });
 
-    el.publishBtn.addEventListener('click', function(){ (async function(){
-      var title = el.aTitle.value.trim(); if(!title){ alert('Title is required'); return; }
-      var date = el.aDate.value || new Date().toISOString().slice(0,10);
-      var subtitle = el.aSubtitle.value.trim();
-      var author = el.aAuthor.value.trim();
-      var tags = el.aTags.value.split(',').map(function(s){return s.trim();}).filter(Boolean);
-      var coverUrl = el.aCoverUrl.value.trim();
-      var coverFile = await readCoverFile();
-      var cover = coverFile || coverUrl || '';
-      var mode = el.tabHtml.classList.contains('active') ? 'html' : 'text';
-      var content = (mode==='html') ? el.aHtml.value : el.aText.value;
-      var slugBase = slugify(title); var slug = slugBase; var i=2; while((STATE.posts||[]).some(function(p){return p.slug===slug;})){ slug = slugBase+'-'+i++; }
-      var post = { id: slug, slug: slug, title: title, subtitle: subtitle, author: author, date: date, tags: tags, cover: cover, contentType: mode, content: content };
-      STATE.posts = Array.isArray(STATE.posts)? STATE.posts : [];
-      STATE.posts.push(post);
-      saveState(); render(); clearForm(); el.draftStatus.textContent='Published'; window.scrollTo({top:0, behavior:'smooth'});
-    })(); });
+      el.publishBtn.addEventListener('click', function(){ (async function(){
+        var title = el.aTitle.value.trim(); if(!title){ alert('Title is required'); return; }
+        var date = el.aDate.value || new Date().toISOString().slice(0,10);
+        var subtitle = el.aSubtitle.value.trim();
+        var author = el.aAuthor.value.trim();
+        var tags = el.aTags.value.split(',').map(function(s){return s.trim();}).filter(Boolean);
+        var coverUrl = el.aCoverUrl.value.trim();
+        var coverFile = await readCoverFile();
+        var cover = coverFile || coverUrl || '';
+        var mode = el.tabHtml.classList.contains('active') ? 'html' : 'text';
+        var content = (mode==='html') ? el.aHtml.value : el.aText.value;
+        var slugBase = slugify(title); var slug = slugBase; var i=2; while((STATE.posts||[]).some(function(p){return p.slug===slug;})){ slug = slugBase+'-'+i++; }
+        var post = { id: slug, slug: slug, title: title, subtitle: subtitle, author: author, date: date, tags: tags, cover: cover, contentType: mode, content: content, excerpt: el.aExcerpt.value.trim() };
+        STATE.posts = Array.isArray(STATE.posts)? STATE.posts : [];
+        STATE.posts.push(post);
+        saveState(); render(); clearForm(); el.draftStatus.textContent='Published'; window.scrollTo({top:0, behavior:'smooth'});
+      })(); });
 
-    el.clearBtn.addEventListener('click', clearForm);
+      el.clearBtn.addEventListener('click', clearForm);
 
-    loadState(); el.aDate.valueAsDate = new Date(); render();
+      // Contribute dialog open/close
+      function closeDlg(){ if(el.contribDlg.open) el.contribDlg.close(); }
+      el.openContrib.addEventListener('click', ()=> el.contribDlg.showModal());
+      el.closeContrib.addEventListener('click', (e)=>{ e.preventDefault(); closeDlg(); });
+      el.cancelContrib.addEventListener('click', (e)=>{ e.preventDefault(); closeDlg(); });
+
+      // Contribute submit
+      el.submitContrib.addEventListener('click', async function(){
+        if(!el.ctName.value.trim() || !el.ctEmail.value.trim() || !el.ctMsg.value.trim() || !el.ctConsent.checked){
+          alert('Please fill Name, Email, Message and accept consent.'); return;
+        }
+        const payload = {
+          name: el.ctName.value.trim(),
+          email: el.ctEmail.value.trim(),
+          type: el.ctType.value,
+          message: el.ctMsg.value.trim(),
+          fileName: (el.ctFile.files && el.ctFile.files[0]) ? el.ctFile.files[0].name : null,
+          ts: new Date().toISOString()
+        };
+        try{
+          const list = JSON.parse(localStorage.getItem(CONTRIB_KEY)||'[]'); list.push(payload);
+          localStorage.setItem(CONTRIB_KEY, JSON.stringify(list));
+        }catch(e){}
+        // Optionally save attachment content locally as DataURL
+        if(el.ctFile.files && el.ctFile.files[0]){
+          const f = el.ctFile.files[0];
+          const fr = new FileReader();
+          fr.onload = function(){
+            try{ localStorage.setItem(CONTRIB_KEY + '__file__' + payload.ts, fr.result); }catch(e){}
+          };
+          fr.readAsDataURL(f);
+        }
+        // Reset + close
+        el.ctName.value = ''; el.ctEmail.value=''; el.ctMsg.value=''; el.ctConsent.checked = false; el.ctType.value='tip'; if(el.ctFile) el.ctFile.value='';
+        alert('Thanks for your contribution—saved locally. You can export from DevTools > Application > Local Storage if needed.');
+        el.contribDlg.close();
+      });
+
+      // Close dialog on backdrop click
+      el.contribDlg.addEventListener('click', (e)=>{ const r = el.contribDlg.getBoundingClientRect(); if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom){ el.contribDlg.close(); }});
+    }
+
+    /* ---------- Init ---------- */
+    loadState();
+    el.aDate.valueAsDate = new Date();
+    wireUI();
+    render();
   </script>
 </body>
 </html>

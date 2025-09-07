@@ -251,6 +251,19 @@
         {id:'emm', title:'European Market Movers', tag:'Newsletter', blurb:'Weekly, PM-style wrap of European markets.', href:'newsletter.html', cover:''}
       ]
     };
+    { id:'coming',
+  title:'New projects coming soon…',
+  tag:'Coming up',
+  blurb:'Stay tuned',
+  href:'',           // empty = not clickable (see step 2)
+  cover:'' },
+
+{ id:'newproj',
+  title:'Create a New Project',
+  tag:'Tool',
+  blurb:'Open the project builder preview.',
+  href:'project-new.html',   // links to your builder preview
+  cover:'' }
 
     const grid = document.getElementById('projectGrid');
     const portraitEl = document.getElementById('portrait'); // (unused now)
@@ -271,21 +284,21 @@
     }
 
     function cardTemplate(p){
-      const cover = getCover(p);
-      return `<article class="card" onclick="location.href='${p.href}'" style="cursor:pointer">
-        <div class="cover" style="background-image:url('${cover}')" title="Open ${p.title}"></div>
-        <div class="inner">
-          <span class="tag">${p.tag||''}</span>
-          <h3 style="margin:8px 0 6px; font-weight:800">${p.title||''}</h3>
-          <p><em>${p.blurb||''}</em></p>
-        </div>
-      </article>`;
-    }
+  const cover = getCover(p);
+  const clickable = !!(p.href && p.href.trim());   // only clickable if href exists
+  const open = clickable ? `onclick="location.href='${p.href}'"` : '';
+  const cursor = clickable ? 'pointer' : 'default';
 
-    function render(){
-      // Bio portrait no longer shown; leave localStorage feature intact for future use
-      grid.innerHTML = DATA.projects.map((p)=>cardTemplate(p)).join('');
-    }
+  return `<article class="card" ${open} style="cursor:${cursor}">
+    <div class="cover" style="background-image:url('${cover}')" title="${p.title||''}"></div>
+    <div class="inner">
+      <span class="tag">${p.tag||''}</span>
+      <h3 style="margin:8px 0 6px; font-weight:800">${p.title||''}</h3>
+      <p><em>${p.blurb||''}</em></p>
+    </div>
+  </article>`;
+}
+
 
     async function load(){
       try{ const r=await fetch(API_PROJECTS,{cache:'no-store'}); if(!r.ok) throw new Error('no api'); DATA = await r.json(); }

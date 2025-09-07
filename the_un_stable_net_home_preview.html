@@ -44,7 +44,10 @@
     .nl-input{padding:12px 12px; border-radius:10px; border:1px solid #cfe0ff; min-width:260px; font:inherit}
 
     section.projects{padding:26px 0}
-    .section-head{display:flex; align-items:center; justify-content:space-between; gap:10px}
+    .section-head{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  margin-bottom:12px; /* added spacing under the title */
+}
     .section-title{font-weight:800}
     .grid{display:grid; grid-template-columns:repeat(2, 1fr); gap:16px}
     .card{position:relative; background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); overflow:hidden; transition:transform .2s ease}
@@ -190,11 +193,9 @@
         </a>
       </div>
 
-      <!-- Right: super short about -->
-      <div class="mini" style="margin-left:auto; text-align:right; max-width:440px;">
-        <strong>About:</strong> Swiss–Italian analyst & builder focused on fintech/med-tech & AI. <a href="bio.html">Bio →</a>
+      <div class="mini" style="margin-left:auto; text-align:right; max-width:440px; font-size:14px;">
+  <strong>About:</strong> Swiss–Italian analyst & builder focused on fintech/med-tech & AI.
       </div>
-    </div>
 
     <!-- Centered © + legal links -->
     <div class="wrap mini" style="margin-top:6px; display:flex; justify-content:center; align-items:center; gap:10px; flex-wrap:wrap; text-align:center;">

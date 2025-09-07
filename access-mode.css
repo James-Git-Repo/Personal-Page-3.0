@@ -1,0 +1,5 @@
+/*! Role/View helper styles */
+html[data-mode="user"] .only-editor { display:none !important; }
+html[data-mode="editor"] .only-user { display:none !important; }
+/* Optional outline for editable zones when in editor mode */
+html[data-mode="editor"] .edit-outline { outline: 1.5px dashed rgba(16,185,129,0.7); outline-offset: 2px; }

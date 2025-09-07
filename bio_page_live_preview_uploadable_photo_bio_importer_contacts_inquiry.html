@@ -8,15 +8,21 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     /* Ask a question — pill outline like Home */
+/* Shared pill button for links & buttons */
 .ft-btn{
   appearance:none;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  text-decoration:none;
   background:#fff;
   color:#1f3aa2;
   border:1.5px solid #dbe6ff;
   border-radius:14px;
-  padding:10px 16px;
-  font-weight:700;
-  line-height:1;
+  padding:12px 18px;        /* bigger to match Home feel */
+  font-weight:800;          /* same weight as <b> */
+  font-size:16px;           /* make Ask a question as big as Home */
+  line-height:1.1;
   cursor:pointer;
   transition: box-shadow .2s ease, transform .02s ease, background .2s ease;
   box-shadow:0 0 0 0 rgba(33,64,184,0);
@@ -84,7 +90,7 @@
 <body>
   <header>
     <div class="wrap" style="display:flex;justify-content:space-between;align-items:center">
-      <a href="index.html"><b>← Home</b></a>
+      <a href="index.html" class="ft-btn">← Home</a>
       <button id="openInquiry" class="ft-btn" type="button">Ask a question</button>
     </div>
   </header>

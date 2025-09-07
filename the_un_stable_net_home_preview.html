@@ -246,49 +246,36 @@
     const API_PROJECTS = 'api/projects.json';
 
     const DEFAULTS = {
-      projects:[
-        {id:'msb', title:'Million Slots Billboard', tag:'Platform', blurb:'A permanent AI video mosaic with 1,000,000 micro-slots. Claim space and publish.', href:'msb.html', cover:''},
-        {id:'emm', title:'European Market Movers', tag:'Newsletter', blurb:'Weekly, PM-style wrap of European markets.', href:'newsletter.html', cover:''}
-      ]
-    };
-    { id:'coming',
-  title:'New projects coming soon…',
-  tag:'Coming up',
-  blurb:'Stay tuned',
-  href:'',           // empty = not clickable (see step 2)
-  cover:'' },
+  projects:[
+    {id:'msb',  title:'Million Slots Billboard', tag:'Platform',  blurb:'A permanent AI video mosaic with 1,000,000 micro-slots. Claim space and publish.', href:'msb.html',        cover:''},
+    {id:'emm',  title:'European Market Movers',  tag:'Newsletter', blurb:'Weekly, PM-style wrap of European markets.',                                   href:'newsletter.html', cover:''},
+    {id:'coming',  title:'New projects coming soon…', tag:'Coming up', blurb:'Stay tuned', href:'', cover:''},
+    {id:'newproj', title:'Create a New Project',     tag:'Tool',      blurb:'Open the project builder preview.', href:'project-new.html', cover:''}
+  ]
+};
 
-{ id:'newproj',
-  title:'Create a New Project',
-  tag:'Tool',
-  blurb:'Open the project builder preview.',
-  href:'project-new.html',   // links to your builder preview
-  cover:'' }
+const grid = document.getElementById('projectGrid');
+let DATA = DEFAULTS;
 
-    const grid = document.getElementById('projectGrid');
-    const portraitEl = document.getElementById('portrait'); // (unused now)
-    let DATA = DEFAULTS;
+function genCover(title, tag){
+  const svg=`<?xml version="1.0"?><svg xmlns='http://www.w3.org/2000/svg' width='1200' height='675'>
+  <defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='#1f4aff'/><stop offset='100%' stop-color='#00b7ff'/></linearGradient></defs>
+  <rect width='1200' height='675' fill='#0b1226'/><rect width='1200' height='675' fill='url(#g)' opacity='0.18'/>
+  <text x='40' y='80' fill='#dbe5ff' font-family='Inter,Arial' font-weight='700' font-size='42'>${(title||'Project').replace(/</g,'&lt;')}</text>
+  <text x='40' y='120' fill='#a9b7d9' font-family='Inter,Arial' font-size='24'>${(tag||'')}</text></svg>`;
+  return 'data:image/svg+xml;utf8,'+encodeURIComponent(svg);
+}
 
-    function genCover(title, tag){
-      const svg=`<?xml version="1.0"?><svg xmlns='http://www.w3.org/2000/svg' width='1200' height='675'>
-      <defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='#1f4aff'/><stop offset='100%' stop-color='#00b7ff'/></linearGradient></defs>
-      <rect width='1200' height='675' fill='#0b1226'/><rect width='1200' height='675' fill='url(#g)' opacity='0.18'/>
-      <text x='40' y='80' fill='#dbe5ff' font-family='Inter,Arial' font-weight='700' font-size='42'>${(title||'Project').replace(/</g,'&lt;')}</text>
-      <text x='40' y='120' fill='#a9b7d9' font-family='Inter,Arial' font-size='24'>${(tag||'')}</text></svg>`;
-      return 'data:image/svg+xml;utf8,'+encodeURIComponent(svg);
-    }
+function getCover(p){
+  const override = localStorage.getItem('project_cover_'+p.id);
+  return override || p.cover || genCover(p.title,p.tag);
+}
 
-    function getCover(p){
-      const override = localStorage.getItem('project_cover_'+p.id);
-      return override || p.cover || genCover(p.title,p.tag);
-    }
-
-    function cardTemplate(p){
+function cardTemplate(p){
   const cover = getCover(p);
-  const clickable = !!(p.href && p.href.trim());   // only clickable if href exists
+  const clickable = !!(p.href && p.href.trim());
   const open = clickable ? `onclick="location.href='${p.href}'"` : '';
   const cursor = clickable ? 'pointer' : 'default';
-
   return `<article class="card" ${open} style="cursor:${cursor}">
     <div class="cover" style="background-image:url('${cover}')" title="${p.title||''}"></div>
     <div class="inner">
@@ -297,6 +284,10 @@
       <p><em>${p.blurb||''}</em></p>
     </div>
   </article>`;
+}
+
+function render(){
+  grid.innerHTML = (DATA.projects || []).map(cardTemplate).join('');
 }
 
 

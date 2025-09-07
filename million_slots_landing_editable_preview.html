@@ -19,11 +19,17 @@
 <header class="sticky top-0 z-40 border-b border-white/10 bg-black/20 backdrop-blur">
   <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
     <!-- Brand: TSN app-style icon + white title -->
-    <a href="the_un_stable_net_home_preview.html" class="flex items-center gap-3">
       <!-- Replace ONLY the icon span inside the brand link -->
-<span class="flex h-8 w-8 items-center justify-center rounded-2xl bg-white shadow ring-1 ring-white/20">
-  <span class="text-[11px] font-extrabold tracking-wide text-black">TSN</span>
+<!-- TSN logo: grayscale negative of the home icon -->
+<span class="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-2xl overflow-hidden shadow-[0_6px_16px_rgba(0,0,0,0.25)] ring-1 ring-white/25" aria-label="TSN logo">
+  <!-- base vertical highlight -->
+  <span class="absolute inset-0" style="background:linear-gradient(180deg,#ffffff 0%, #f0f0f0 100%);"></span>
+  <!-- diagonal split (darker lower-right) -->
+  <span class="absolute inset-0" style="background:linear-gradient(135deg, transparent 49.5%, #d2d2d2 50%);"></span>
+  <!-- text -->
+  <span class="relative text-[11px] font-extrabold tracking-wide text-black">TSN</span>
 </span>
+
       <span class="text-white text-lg font-extrabold">The (un)Stable Net</span>
     </a>
 

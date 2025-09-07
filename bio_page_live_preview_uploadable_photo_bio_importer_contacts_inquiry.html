@@ -45,12 +45,20 @@
     #bioView{line-height:1.55}
     #bioEditor{width:100%; min-height:220px; border:1px solid var(--line); border-radius:12px; padding:12px; font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:14px}
 
-    dialog{border:none; border-radius:16px; box-shadow:0 20px 50px rgba(12,23,52,.2); width:min(560px,90vw); padding:0}
-    .dialog-head{padding:14px 16px; border-bottom:1px solid var(--line); background:#f7faff; border-radius:16px 16px 0 0; font-weight:800}
-    .dialog-body{padding:16px}
-    .dialog-body form{display:grid; gap:10px}
-    .dialog-body input,.dialog-body textarea{border:1px solid var(--line); border-radius:10px; padding:10px; font-size:14px}
-    .dialog-foot{display:flex; justify-content:space-between; gap:8px; padding:12px 16px; border-top:1px solid var(--line); background:#fbfcff; border-radius:0 0 16px 16px}
+    dialog{
+      border:0; padding:0; border-radius:16px; overflow:hidden;
+      width:min(720px, 94vw);
+      box-shadow:0 20px 60px rgba(12,23,52,.20), 0 2px 10px rgba(12,23,52,.08);
+    }
+    dialog::backdrop{ background:rgba(11,21,44,.55) }
+    .dialog-head{ padding:14px 16px; font-weight:800; background:#f7faff; border-bottom:1px solid #e7edf7 }
+    .dialog-body{ padding:16px; background:linear-gradient(180deg,#0b152c 0%, #11224a 50%, #0b152c 100%) }
+    .dialog-foot{ padding:12px 16px; background:#f7faff; border-top:1px solid #e7edf7; display:flex; justify-content:space-between }
+    .dialog-body form{ display:grid; gap:12px }
+    .dialog-body input, .dialog-body textarea{
+      width:100%; padding:12px; border-radius:12px; border:2px solid #0b152c;
+      background:white; color:#0b152c; font:inherit;
+    }
     footer{color:#61709a; padding:20px 0; text-align:center}
     @media (max-width: 780px){ .head{grid-template-columns:1fr} .photo-wrap{order:-1} }
   </style>

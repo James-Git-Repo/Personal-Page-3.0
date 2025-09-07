@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en" data-mode="user">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Switch View — Editor/User</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/access-mode.css">
+  <script defer src="assets/access-mode.js"></script>
+  <style>body{font-family:Inter,system-ui,sans-serif}</style>
+</head>
+<body class="min-h-screen bg-[#0b0f13] text-white">
+  <div class="mx-auto max-w-xl px-6 py-16">
+    <h1 class="text-3xl font-extrabold tracking-tight">View Switch</h1>
+    <p class="mt-2 text-white/70">Toggle between <b>Editor</b> and <b>User</b> views for the site.</p>
+
+    <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <button id="enter-editor" class="rounded-2xl bg-white text-black font-semibold px-5 py-3 shadow">
+        Enter Editor Mode
+      </button>
+      <button id="enter-user" class="rounded-2xl border border-white/20 text-white font-semibold px-5 py-3 shadow">
+        Switch to User Mode
+      </button>
+    </div>
+
+    <div class="mt-8 text-sm text-white/70">
+      <p><span class="font-semibold">Quick URLs:</span></p>
+      <ul class="list-disc ml-5 mt-2 space-y-1">
+        <li><code>?mode=editor&amp;key=BananaTua23</code> — enable editor</li>
+        <li><code>?mode=user</code> — go back to user view</li>
+      </ul>
+    </div>
+
+    <div class="mt-10 p-4 rounded-xl border border-white/10 bg-white/5">
+      <p class="text-white/80"><b>Tip</b>: Mark elements you want hidden from users with
+      <code>class="only-editor"</code> or <code>data-editor-only</code>. To disable a control in user view,
+      add <code>data-lockable</code>. Editable zones should use <code>contenteditable="true"</code> +
+      <code>edit-outline</code> class; they'll auto-lock for users.</p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('enter-editor').addEventListener('click', function(){
+      const pass = prompt('Enter passphrase to enable Editor Mode:');
+      if (pass === 'BananaTua23') {
+        localStorage.setItem('tsn_mode', 'editor');
+        location.href = location.pathname + '?mode=editor';
+      } else if (pass !== null) {
+        alert('Wrong passphrase.');
+      }
+    });
+    document.getElementById('enter-user').addEventListener('click', function(){
+      localStorage.setItem('tsn_mode', 'user');
+      location.href = location.pathname + '?mode=user';
+    });
+  </script>
+</body>
+</html>
